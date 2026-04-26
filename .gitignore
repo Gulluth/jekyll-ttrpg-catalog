@@ -1,0 +1,13 @@
+_site/
+.sass-cache/
+.jekyll-cache/
+.jekyll-metadata
+node_modules/
+vendor/
+.bundle/
+dist/
+.env
+*.log
+Gemfile.lock
+public/output.json
+assets/output.json

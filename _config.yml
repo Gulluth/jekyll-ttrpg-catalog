@@ -23,7 +23,7 @@ exclude:
   - package-lock.json
   - vite.config.ts
   - tailwind.config.js
-  - dev.html
+  - preview.html
   - "*.md"
   - AGENTS.md
   - csv_to_jekyll.py
