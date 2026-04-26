@@ -18,6 +18,7 @@ include: ["_pages"]
 # Build
 exclude:
   - node_modules
+  - vendor
   - src
   - public
   - package.json
