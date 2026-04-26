@@ -1,7 +1,8 @@
 title: Jekyll TTRPG Catalog
 description: A TTRPG content library
-baseurl: ""
-url: ""
+baseurl: "/jekyll-ttrpg-catalog"
+url: "https://gulluth.github.io"
+future: true
 
 # jekyll-ttrpg-catalog theme settings
 jtc:
