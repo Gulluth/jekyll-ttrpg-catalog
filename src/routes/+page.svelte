@@ -68,35 +68,26 @@
 
 <div class="px-4 py-6 max-w-7xl mx-auto">
   <div class="flex flex-col gap-3 mb-6">
-    <div class="flex items-start gap-3 flex-wrap">
-      <SearchInput bind:value={search} />
-      <div class="flex items-center gap-2 ml-auto">
-        <label for="sort-select" class="text-xs opacity-60 whitespace-nowrap">Sort by</label>
-        <select id="sort-select" class="select text-sm" bind:value={sort}>
-          <option value="newest">Newest</option>
-          <option value="oldest">Oldest</option>
-          <option value="az">A–Z</option>
-          <option value="za">Z–A</option>
-        </select>
-      </div>
-    </div>
+    <SearchInput bind:value={search} />
 
-    {#if data.config.showTagCloud}
-      <TagCloud categories={data.categories} bind:selected={filterCategory} />
-    {/if}
+    <TagCloud
+      categories={data.categories}
+      bind:selected={filterCategory}
+      show={data.config.showTagCloud}
+    />
 
-    {#if data.config.showFilterBar}
-      <FilterBar
-        categories={data.categories}
-        authors={data.authors}
-        genres={data.genres}
-        costs={data.costs}
-        bind:category={filterCategory}
-        bind:author={filterAuthor}
-        bind:genre={filterGenre}
-        bind:cost={filterCost}
-      />
-    {/if}
+    <FilterBar
+      categories={data.categories}
+      authors={data.authors}
+      genres={data.genres}
+      costs={data.costs}
+      bind:category={filterCategory}
+      bind:author={filterAuthor}
+      bind:genre={filterGenre}
+      bind:cost={filterCost}
+      bind:sort={sort}
+      show={data.config.showFilterBar}
+    />
   </div>
 
   <p class="text-xs opacity-50 mb-4">
