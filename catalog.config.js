@@ -39,6 +39,10 @@ export default {
     "miscellany",
   ],
 
+  // staticmanUrl: the Staticman API endpoint for community submissions.
+  // Replace USERNAME, REPO, and BRANCH with your own values.
+  staticmanUrl: "https://staticman3.herokuapp.com/v3/entry/github/USERNAME/REPO/BRANCH/submissions",
+
   // customFields: define additional frontmatter fields specific to your catalog.
   // Each field is added to the resource page display and, if showSubmitForm is true,
   // to the community submission form. Fields not defined here are ignored by the app.

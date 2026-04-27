@@ -21,4 +21,5 @@ export interface CatalogConfig {
   filters?: Partial<Record<'category' | 'author' | 'genre' | 'cost' | 'tags', FilterDimension>>
   categories: string[]
   customFields?: CustomField[]
+  staticmanUrl?: string
 }

@@ -14,6 +14,7 @@ export const config = {
   filters: cfg.filters ?? ({} as Partial<Record<'category' | 'author' | 'genre' | 'cost' | 'tags', FilterDimension>>),
   categories: cfg.categories,
   customFields: cfg.customFields ?? ([] as CustomField[]),
+  staticmanUrl: cfg.staticmanUrl ?? '',
 }
 
 export type ResolvedConfig = typeof config
