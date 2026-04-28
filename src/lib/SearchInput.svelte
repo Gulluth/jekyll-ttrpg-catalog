@@ -2,7 +2,7 @@
   let { value = $bindable('') }: { value: string } = $props()
 </script>
 
-<div class="input-group grid-cols-[1fr_auto] w-full max-w-md">
+<div class="input-group grid-cols-[1fr_auto] w-full">
   <input
     id="jekyll-ttrpg-catalog-search"
     type="search"
