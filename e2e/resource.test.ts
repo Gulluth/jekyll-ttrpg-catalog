@@ -17,7 +17,7 @@ test.describe('resource detail page', () => {
 
   test('back link returns to catalog', async ({ page }) => {
     await page.goto('/resource/basilisk/')
-    const backLink = page.getByRole('link', { name: /back|catalog|← /i })
+    const backLink = page.getByRole('link', { name: '← Back to catalog' })
     await expect(backLink).toBeVisible()
     await backLink.click()
     await expect(page).toHaveURL(/\/$|\/\?/)
