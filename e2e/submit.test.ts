@@ -64,8 +64,8 @@ test.describe('submission form', () => {
     // Verify the POST went to the configured Staticman endpoint
     expect(capturedRequest).not.toBeNull()
     expect(capturedRequest!.url).toContain('v3/entry')
-    expect(capturedRequest!.body).toContain('My+TTRPG+Hack')
-    expect(capturedRequest!.body).toContain('Jane+Doe')
+    expect(capturedRequest!.body).toContain('My TTRPG Hack')
+    expect(capturedRequest!.body).toContain('Jane Doe')
   })
 
   test('shows success message after successful submission', async ({ page }) => {
