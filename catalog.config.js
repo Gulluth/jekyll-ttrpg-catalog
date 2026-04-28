@@ -1,6 +1,6 @@
 /** @type {import('./src/lib/config.js').CatalogConfig} */
 export default {
-  // basePath: the sub-path https://gulluth.github.io/jekyll-ttrpg-catalog/resource/black-sword-hack/where your site is deployed.
+  // basePath: the sub-path where your site is deployed.
   // Set this to '/your-repo-name' for GitHub Pages project sites
   // (userid.github.io/repo-name). Leave commented out for root deployments
   // (userid.github.io or a custom domain at the root).
