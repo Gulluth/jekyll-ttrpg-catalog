@@ -3,15 +3,14 @@
   import { replaceState } from '$app/navigation'
   import { applySearch, applyFilters, sortPosts, paginate } from '$lib/filters.js'
   import type { SortOption } from '$lib/filters.js'
+  import { searchState } from '$lib/search.svelte.js'
   import CardGrid from '$lib/CardGrid.svelte'
   import FilterBar from '$lib/FilterBar.svelte'
-  import SearchInput from '$lib/SearchInput.svelte'
   import TagCloud from '$lib/TagCloud.svelte'
   import Pagination from '$lib/Pagination.svelte'
 
   const { data } = $props()
 
-  let search = $state('')
   let filterCategory = $state('all')
   let filterAuthor = $state('all')
   let filterGenre = $state('all')
@@ -22,7 +21,7 @@
 
   onMount(() => {
     const p = new URLSearchParams(window.location.search)
-    search = p.get('q') ?? ''
+    searchState.query = p.get('q') ?? ''
     filterCategory = p.get('category') ?? 'all'
     filterAuthor = p.get('author') ?? 'all'
     filterGenre = p.get('genre') ?? 'all'
@@ -33,7 +32,7 @@
 
   // Reset to page 1 whenever filter/search/sort state changes
   const filterKey = $derived(
-    `${search}|${filterCategory}|${filterAuthor}|${filterGenre}|${filterCost}|${sort}`
+    `${searchState.query}|${filterCategory}|${filterAuthor}|${filterGenre}|${filterCost}|${sort}`
   )
   $effect(() => {
     filterKey
@@ -44,7 +43,7 @@
   $effect(() => {
     if (!mounted) return
     const p = new URLSearchParams()
-    if (search) p.set('q', search)
+    if (searchState.query) p.set('q', searchState.query)
     if (filterCategory !== 'all') p.set('category', filterCategory)
     if (filterAuthor !== 'all') p.set('author', filterAuthor)
     if (filterGenre !== 'all') p.set('genre', filterGenre)
@@ -56,7 +55,7 @@
 
   const filtered = $derived(
     applyFilters(
-      applySearch(data.posts, search),
+      applySearch(data.posts, searchState.query),
       { category: filterCategory, author: filterAuthor, genre: filterGenre, cost: filterCost }
     )
   )
@@ -68,8 +67,6 @@
 
 <div class="px-4 py-6 max-w-7xl mx-auto">
   <div class="flex flex-col gap-3 mb-6">
-    <SearchInput bind:value={search} />
-
     <TagCloud
       categories={data.categories}
       bind:selected={filterCategory}
