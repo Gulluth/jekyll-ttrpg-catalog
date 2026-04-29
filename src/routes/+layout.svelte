@@ -19,6 +19,10 @@
     }
 </script>
 
+<svelte:head>
+    <link rel="alternate" type="application/rss+xml" title={config.title} href="{base}/feed.xml" />
+</svelte:head>
+
 <div data-theme={config.theme} class="min-h-screen flex flex-col">
     <header
         class="border-b border-surface-200-800 px-4 py-3 grid grid-cols-[1fr_auto_1fr] items-center gap-4"
