@@ -21,18 +21,18 @@
 
 <div data-theme={config.theme} class="min-h-screen flex flex-col">
     <header
-        class="border-b border-surface-200-800 px-4 py-3 flex items-center gap-4"
+        class="border-b border-surface-200-800 px-4 py-3 grid grid-cols-[1fr_auto_1fr] items-center gap-4"
     >
         <a
             href="{base}/"
-            class="font-bold text-lg tracking-tight hover:opacity-80 transition-opacity"
+            class="font-bold text-lg tracking-tight hover:opacity-80 transition-opacity justify-self-start"
         >
             {config.title}
         </a>
-        <div class="flex-1 max-w-sm">
+        <div class="w-full max-w-sm">
             <SearchInput />
         </div>
-        <div class="ml-auto flex items-center gap-3">
+        <div class="justify-self-end flex items-center gap-3">
             {#if config.showSubmitForm}
                 <a
                     href="{base}/submit/"
@@ -85,15 +85,15 @@
     <footer
         class="border-t border-surface-200-800 px-4 py-3 text-xs opacity-40 text-center flex flex-wrap justify-center gap-x-4 gap-y-1"
     >
-        {#if __COMMIT_URL__}
-            <a
-                href={__COMMIT_URL__}
-                class="hover:opacity-80"
-                target="_blank"
-                rel="noopener">{config.title} #{__COMMIT_SHA__}</a
-            >
+        {#if config.siteUrl}
+            <a href={config.siteUrl} class="hover:opacity-80" target="_blank" rel="noopener">{config.title}</a>
         {:else}
-            <span>{config.title} build: #{__COMMIT_SHA__}</span>
+            <span>{config.title}</span>
+        {/if}
+        {#if __COMMIT_URL__}
+            <a href={__COMMIT_URL__} class="hover:opacity-80" target="_blank" rel="noopener">#{__COMMIT_SHA__}</a>
+        {:else}
+            <span>#{__COMMIT_SHA__}</span>
         {/if}
         <a
             href="https://opensource.org/licenses/MIT"

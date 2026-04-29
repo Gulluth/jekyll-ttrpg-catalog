@@ -23,4 +23,6 @@ export interface CatalogConfig {
   customFields?: CustomField[]
   staticmanUrl?: string
   basePath?: string
+  showCost?: boolean
+  siteUrl?: string
 }

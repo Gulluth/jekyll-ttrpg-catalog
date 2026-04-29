@@ -15,6 +15,8 @@ export const config = {
   categories: cfg.categories,
   customFields: cfg.customFields ?? ([] as CustomField[]),
   staticmanUrl: cfg.staticmanUrl ?? '',
+  showCost: cfg.showCost ?? true,
+  siteUrl: cfg.siteUrl ?? '',
 }
 
 export type ResolvedConfig = typeof config

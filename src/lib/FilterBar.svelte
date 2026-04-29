@@ -12,6 +12,7 @@
     cost = $bindable('all'),
     sort = $bindable<SortOption>('newest'),
     show = true,
+    showCost = true,
   }: {
     categories: string[]
     authors: string[]
@@ -23,6 +24,7 @@
     cost: string
     sort: SortOption
     show?: boolean
+    showCost?: boolean
   } = $props()
 
   const isDirty = $derived(
@@ -56,10 +58,12 @@
     {#each genres as g}<option value={g}>{g}</option>{/each}
   </select>
 
+  {#if showCost}
   <select class="select flex-1" bind:value={cost}>
     <option value="all">All Costs</option>
     {#each costs as c}<option value={c}>{c}</option>{/each}
   </select>
+  {/if}
 
   <div class="flex items-center gap-2 ml-auto">
     <label for="sort-select" class="text-xs opacity-60 whitespace-nowrap">Sort by</label>
