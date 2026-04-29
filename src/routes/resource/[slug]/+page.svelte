@@ -26,7 +26,7 @@
   <div class="flex flex-wrap gap-x-4 gap-y-1 text-sm opacity-60 mb-4">
     {#if post.author}<span>By {post.author}</span>{/if}
     {#if post.genre}<span>{post.genre}</span>{/if}
-    {#if post.cost}<span>{post.cost}</span>{/if}
+    {#if config.showCost && post.cost}<span>{post.cost}</span>{/if}
     {#if post.license}<span>{post.license}</span>{/if}
   </div>
 

@@ -77,6 +77,7 @@
       bind:cost={filterCost}
       bind:sort={sort}
       show={data.config.showFilterBar}
+      showCost={data.config.showCost}
     />
   </div>
 

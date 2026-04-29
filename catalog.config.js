@@ -40,6 +40,14 @@ export default {
   // appear automatically. This list only controls what submitters can choose.
   categories: ["hacks", "monsters", "npcs", "miscellany"],
 
+  // siteUrl: the public URL of your deployed site (e.g. "https://you.github.io/repo").
+  // When set, the site title in the footer links to this URL.
+  // siteUrl: "https://gulluth.github.io/jekyll-ttrpg-catalog",
+
+  // showCost: set to false to hide the cost/price field everywhere (filter bar and resource pages),
+  // even when posts have cost metadata.
+  // showCost: false,
+
   // staticmanUrl: the Staticman API endpoint for community submissions.
   // Replace USERNAME, REPO, and BRANCH with your own values.
   staticmanUrl:
