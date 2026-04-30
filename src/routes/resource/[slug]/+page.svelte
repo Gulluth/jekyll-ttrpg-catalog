@@ -11,6 +11,10 @@
 
 <div data-pagefind-body class="px-4 py-8 max-w-4xl mx-auto">
 
+  {#if post.category.length > 0}
+    <div data-pagefind-meta="category" style="display: none;">{post.category.join(', ')}</div>
+  {/if}
+
   <!-- Two-column on desktop, single column on mobile.
        DOM order = mobile order: metadata first, cover second.
        On desktop, explicit grid placement swaps them visually. -->
