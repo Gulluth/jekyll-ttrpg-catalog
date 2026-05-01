@@ -16,12 +16,11 @@ export interface CatalogConfig {
   theme?: string
   postsPerPage?: number
   showSubmitForm?: boolean
+  submitUrl?: string
   showTagCloud?: boolean
   showFilterBar?: boolean
   filters?: Partial<Record<'category' | 'author' | 'genre' | 'cost' | 'tags', FilterDimension>>
-  categories?: string[]
   customFields?: CustomField[]
-  staticmanUrl?: string
   basePath?: string
   showCost?: boolean
   siteUrl?: string

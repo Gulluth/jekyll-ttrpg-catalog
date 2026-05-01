@@ -185,20 +185,19 @@ Then add the corresponding keys to your post frontmatter. Fields not declared he
 
 ---
 
-## Community submissions (optional, experimental)
+## Community submissions
 
-The `/submit` page lets visitors propose resources as GitHub pull requests — no GitHub account required for submitters.
-
-This feature requires a self-hosted [Staticman](https://staticman.net/) instance and is **disabled by default**. To enable it, see the gorlab [contributing docs](https://github.com/girtablu/gorlab/blob/main/CONTRIBUTING.md) for setup details.
+Gorlab includes a `/submit/` page where visitors can propose resources. The form UI is built in — you enable it with a config toggle. The backend that receives and processes those submissions is **not** included; it is a separate add-on package you install alongside gorlab.
 
 ```js
 // gorlab.config.js
 showSubmitForm: true,
-staticmanUrl: "https://your-staticman-instance/v3/entry/github/USERNAME/REPO/BRANCH/submissions",
-categories: ["adventures", "systems", "zines"],
+submitUrl: "https://your-backend-endpoint/submit",
 ```
 
-Submissions go to `posts/incoming/` as a PR for your review before anything goes live.
+When `showSubmitForm` is `true`, a **Submit** link appears in the nav and the `/submit/` route is active. When `false` (the default), the route is inaccessible and the link is hidden.
+
+Backend add-on packages (e.g. `@girtablu/gorlab-submit-netlify`) will be published separately. Until then, this feature requires you to wire up your own endpoint.
 
 ---
 

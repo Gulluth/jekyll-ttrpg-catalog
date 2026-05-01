@@ -12,7 +12,7 @@ The codebase has two distinct layers that should never blur:
 | Layer       | Location                                          | Who owns it |
 | ----------- | ------------------------------------------------- | ----------- |
 | **App**     | `src/` — routes, components, data loading, styles | Developer   |
-| **Content** | `posts/`, `gorlab.config.js`, `staticman.yml`    | Site owner  |
+| **Content** | `posts/`, `gorlab.config.js`    | Site owner  |
 
 SvelteKit prebuilds every route at build time (fully static output to `build/`). There is no server at runtime.
 
@@ -30,7 +30,7 @@ src/
 │   │   ├── +page.server.ts    # load() + entries() for prerender
 │   │   └── +page.svelte       # resource detail page
 │   ├── submit/
-│   │   └── +page.svelte       # Staticman submission form
+│   │   └── +page.svelte       # community submission form (POSTs to submitUrl; backend is a separate add-on)
 │   └── feed.xml/
 │       └── +server.ts         # prerendered RSS 2.0 feed
 └── lib/
@@ -148,6 +148,9 @@ An empty or absent `posts/` directory is valid. The catalog renders its empty st
 
 **3. Features are operator-controlled via `gorlab.config.js`.**
 Nearly every UI feature is a toggle (`showCost`, `showTagCloud`, `showFilterBar`, `showSubmitForm`, per-dimension `filters`). When adding an optional feature, expose a toggle in `gorlab.config.js` and default it to the least-surprising state. Do not hardcode feature presence.
+
+**4. The form is gorlab's concern; the backend is not.**
+The `/submit/` route is a generic form UI. It POSTs to `config.submitUrl` — an opaque URL supplied by a separate backend add-on package. Do not add backend-specific logic (auth headers, payload shaping for a specific service) to the core form. The boundary: gorlab renders the form and fires the POST; the add-on owns everything after that.
 
 
 ## Component conventions

@@ -50,6 +50,12 @@ export default {
   //   tags:     { cloud: false, menu: false },
   // },
 
+  // ── Community submissions ─────────────────────────────────────────────────
+  // The /submit/ page lets visitors propose resources. Requires a backend
+  // add-on package to receive submissions (not bundled with gorlab).
+  // showSubmitForm: false,
+  // submitUrl: "https://your-backend-endpoint/submit",
+
   // ── Custom fields ─────────────────────────────────────────────────────────
   // Add extra fields specific to your catalog. They appear on resource pages.
   // Fields not listed here are ignored by the app.
@@ -65,10 +71,4 @@ export default {
   //   { key: "system",     label: "Game System", type: "text", multiple: true  },
   // ],
 
-  // ── Community submissions (Staticman) ─────────────────────────────────────
-  // Disabled by default. Requires a self-hosted Staticman instance.
-  // See the gorlab README for setup details.
-  // showSubmitForm: false,
-  // staticmanUrl: "https://your-staticman-instance/v3/entry/github/USERNAME/REPO/BRANCH/submissions",
-  // categories: ["adventures", "systems", "zines"],
 };
