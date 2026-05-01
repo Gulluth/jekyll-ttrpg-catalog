@@ -26,7 +26,6 @@
     "test": "npm run test:unit && npm run test:e2e"
   },
   "dependencies": {
-    "@girtablu/gorlab": "file:girtablu-gorlab-0.1.0.tgz",
     "@skeletonlabs/skeleton": "^4.15.2",
     "@skeletonlabs/skeleton-svelte": "^4.15.2",
     "@sveltejs/adapter-static": "^3.0.10",
