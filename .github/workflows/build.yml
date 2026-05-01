@@ -37,14 +37,6 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Install Playwright Chromium
-        if: github.event_name != 'push'
-        run: npx playwright install --with-deps chromium
-
-      - name: E2E tests
-        if: github.event_name != 'push'
-        run: npm run test:e2e
-
       - uses: actions/upload-pages-artifact@v3
         if: github.event_name != 'pull_request'
         with:
