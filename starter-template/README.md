@@ -120,7 +120,7 @@ Set `theme` in `gorlab.config.js`:
 | `pine`     | Earthy greens  |
 | `modern`   | Clean, minimal |
 
-The default is `vintage`. Commit the config change and the site redeploys.
+The default is `cerberus`. Commit the config change and the site redeploys.
 
 ### Custom themes
 

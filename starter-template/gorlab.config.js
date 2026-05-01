@@ -22,9 +22,9 @@ export default {
   // basePath: '/my-catalog',
 
   // ── Appearance ────────────────────────────────────────────────────────────
-  // theme: one of the bundled presets below. Default: vintage.
+  // theme: one of the bundled presets below. Default: cerberus.
   // cerberus | wintry | vintage | crimson | pine | modern
-  // theme: "vintage",
+  // theme: "cerberus",
 
   // customCss: path to an extra CSS file in static/ loaded after theme styles.
   // Use this to add custom fonts or override specific styles.

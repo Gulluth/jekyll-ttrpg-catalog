@@ -108,7 +108,7 @@ The app uses [Skeleton UI](https://skeleton.dev) v4. Themes are CSS files that d
 
 ### Bundled presets
 
-Six presets are imported in `src/app.css`: `cerberus`, `wintry`, `vintage`, `crimson`, `pine`, `modern`. The default is `vintage`.
+Six presets are imported in `src/app.css`: `cerberus`, `wintry`, `vintage`, `crimson`, `pine`, `modern`. The default is `cerberus`.
 
 To add more Skeleton presets, import them in `src/app.css`:
 

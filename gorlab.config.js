@@ -21,7 +21,7 @@ export default {
   // basePath: '/gorlab',
 
   // ── Appearance ────────────────────────────────────────────────────────────
-  // theme: "vintage", // cerberus | wintry | vintage | crimson | pine | modern
+  // theme: "cerberus", // cerberus | wintry | vintage | crimson | pine | modern
 
   // ── Content display ───────────────────────────────────────────────────────
   // postsPerPage: 24,
