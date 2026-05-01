@@ -5,7 +5,6 @@
 
   let status = $state<Status>('idle')
   let errorMessage = $state('')
-  let categoryError = $state(false)
 
   const multipleKeys = new Set(
     config.customFields.filter(f => f.multiple).map(f => `fields[${f.key}]`)
@@ -16,13 +15,6 @@
     const form = e.target as HTMLFormElement
     const rawData = new FormData(form)
 
-    // Validate at least one category is checked
-    const categories = rawData.getAll('fields[category][]')
-    if (categories.length === 0) {
-      categoryError = true
-      return
-    }
-    categoryError = false
     status = 'submitting'
 
     // Build final FormData, splitting comma-separated multiple fields into arrays
@@ -44,7 +36,7 @@
     }
 
     try {
-      const res = await fetch(config.staticmanUrl, { method: 'POST', body: submitData })
+      const res = await fetch(config.submitUrl, { method: 'POST', body: submitData })
       if (res.ok) {
         status = 'success'
         form.reset()
@@ -64,11 +56,11 @@
     <h1 class="h2 mb-2">Submissions Closed</h1>
     <p class="opacity-60">This catalog is not currently accepting community submissions.</p>
 
-  {:else if !config.staticmanUrl}
+  {:else if !config.submitUrl}
     <h1 class="h2 mb-2">Submit a Resource</h1>
     <p class="opacity-60">The submission form has not been configured yet.</p>
     <p class="text-sm opacity-40 mt-2 italic">
-      Set <code>staticmanUrl</code> in <code>gorlab.config.js</code> to enable submissions.
+      Set <code>submitUrl</code> in <code>gorlab.config.js</code> to enable submissions.
     </p>
 
   {:else if status === 'success'}
@@ -132,30 +124,6 @@
           />
         </label>
       </div>
-
-      <!-- Category -->
-      <fieldset>
-        <legend class="label-text mb-2">
-          Category <span class="text-error-500">*</span>
-        </legend>
-        {#if categoryError}
-          <p class="text-error-500 text-sm mb-1" role="alert">Please select at least one category.</p>
-        {/if}
-        <div class="flex flex-wrap gap-x-4 gap-y-2">
-          {#each config.categories as cat}
-            <label class="flex items-center gap-2 cursor-pointer">
-              <input
-                type="checkbox"
-                name="fields[category][]"
-                value={cat}
-                class="checkbox"
-                onchange={() => { if (categoryError) categoryError = false }}
-              />
-              <span class="text-sm">{cat}</span>
-            </label>
-          {/each}
-        </div>
-      </fieldset>
 
       <!-- Genre + Cost -->
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">

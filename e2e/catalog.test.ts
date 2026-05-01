@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test'
 
 test.describe('catalog page', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('.')
+    await page.goto('.', { waitUntil: 'networkidle' })
   })
 
   test('loads with cards visible', async ({ page }) => {
@@ -17,9 +17,11 @@ test.describe('catalog page', () => {
 
     const tagCloud = page.getByRole('group', { name: 'Filter by category' })
     await tagCloud.getByRole('button').filter({ hasNotText: 'All' }).first().click()
-    const filtered = await cards.count()
-    expect(filtered).toBeGreaterThan(0)
-    expect(filtered).toBeLessThan(total)
+    await expect(async () => {
+      const filtered = await cards.count()
+      expect(filtered).toBeGreaterThan(0)
+      expect(filtered).toBeLessThan(total)
+    }).toPass()
 
     await tagCloud.getByRole('button', { name: 'All' }).click()
     await expect(cards).toHaveCount(total)
@@ -27,20 +29,16 @@ test.describe('catalog page', () => {
 
   test('sort A–Z orders cards alphabetically ascending', async ({ page }) => {
     await page.selectOption('#sort-select', 'az')
-    await page.locator('article.card').first().waitFor()
     const headings = await page.locator('article.card').getByRole('heading').allTextContents()
     expect(headings.length).toBeGreaterThan(1)
-    const sorted = [...headings].sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()))
-    expect(headings).toEqual(sorted)
+    expect(headings).toEqual([...headings].sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase())))
   })
 
   test('sort Z–A orders cards alphabetically descending', async ({ page }) => {
     await page.selectOption('#sort-select', 'za')
-    await page.locator('article.card').first().waitFor()
     const headings = await page.locator('article.card').getByRole('heading').allTextContents()
     expect(headings.length).toBeGreaterThan(1)
-    const sorted = [...headings].sort((a, b) => b.toLowerCase().localeCompare(a.toLowerCase()))
-    expect(headings).toEqual(sorted)
+    expect(headings).toEqual([...headings].sort((a, b) => b.toLowerCase().localeCompare(a.toLowerCase())))
   })
 
   test('pagination is hidden when all posts fit on one page', async ({ page }) => {

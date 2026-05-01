@@ -33,8 +33,7 @@ export const config = {
 
   // Community submissions
   showSubmitForm: cfg.showSubmitForm ?? false,
-  staticmanUrl: cfg.staticmanUrl ?? "",
-  categories: cfg.categories,
+  submitUrl: cfg.submitUrl ?? "",
 };
 
 export type ResolvedConfig = typeof config;

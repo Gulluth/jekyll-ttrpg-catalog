@@ -53,6 +53,12 @@ export default {
   //   showTagCloud: false,
   //   filters: { cost: { cloud: false, menu: false } },
 
+  // ── Community submissions ─────────────────────────────────────────────────
+  // The /submit/ page lets visitors propose resources. Requires a backend
+  // add-on package to receive submissions (not bundled with gorlab).
+  // showSubmitForm: false,
+  // submitUrl: "https://your-backend-endpoint/submit",
+
   // ── Custom fields ─────────────────────────────────────────────────────────
   // Extend the data schema with fields specific to your catalog. Each field
   // is shown on resource pages and added to the submission form when enabled.
@@ -77,18 +83,4 @@ export default {
   //   { key: "game_system",   label: "Game System",   type: "text",   multiple: true  },
   // ],
 
-  // ── Community submissions (Staticman) ─────────────────────────────────────
-  // Requires a self-hosted or managed Staticman instance — see issue #30.
-  // Disabled by default; set showSubmitForm: true to enable.
-
-  // showSubmitForm: false,
-
-  // staticmanUrl: your Staticman API endpoint.
-  // Replace USERNAME, REPO, and BRANCH with your own values.
-  // staticmanUrl: "https://your-staticman-instance/v3/entry/github/USERNAME/REPO/BRANCH/submissions",
-
-  // categories: options presented to submitters in the submission form.
-  // This does NOT restrict what the app displays — posts in any category appear
-  // automatically. This list only controls what submitters can choose from.
-  // categories: ["."],
 };
