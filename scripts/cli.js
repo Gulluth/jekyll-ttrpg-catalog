@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { spawnSync } from 'child_process'
-import { cpSync, rmSync, existsSync, readdirSync, mkdirSync, copyFileSync } from 'fs'
+import { cpSync, rmSync, existsSync, readdirSync, mkdirSync, copyFileSync, readFileSync, writeFileSync } from 'fs'
 import { resolve, dirname, join, relative } from 'path'
 import { fileURLToPath } from 'url'
 
@@ -73,20 +73,35 @@ switch (command) {
   }
 
   case 'preview': {
-    run('vite', ['preview'])
+    run('vite', ['preview', '--outDir', 'build'])
     break
   }
 
   case 'init': {
     const templateDir = join(packageRoot, 'starter-template')
 
+    // npm strips leading dots from filenames when packing; restore them on copy
+    const DOTFILE_MAP = { 'gitignore': '.gitignore', 'npmrc': '.npmrc' }
+
     function copyDir(src, dest) {
       mkdirSync(dest, { recursive: true })
       for (const entry of readdirSync(src, { withFileTypes: true })) {
         const srcPath = join(src, entry.name)
-        const destPath = join(dest, entry.name)
+        const destName = DOTFILE_MAP[entry.name] ?? entry.name
+        const destPath = join(dest, destName)
         if (entry.isDirectory()) {
           copyDir(srcPath, destPath)
+        } else if (entry.name === 'package.json' && existsSync(destPath)) {
+          // Merge type:module and gorlab scripts into an existing package.json
+          const existing = JSON.parse(readFileSync(destPath, 'utf8'))
+          const template = JSON.parse(readFileSync(srcPath, 'utf8'))
+          const patched = {
+            ...existing,
+            type: existing.type ?? template.type,
+            scripts: { ...template.scripts, ...existing.scripts },
+          }
+          writeFileSync(destPath, JSON.stringify(patched, null, 2) + '\n')
+          console.log(`Patched: ${relative(cwd, destPath)}`)
         } else if (existsSync(destPath)) {
           console.log(`Skipping existing file: ${relative(cwd, destPath)}`)
         } else {

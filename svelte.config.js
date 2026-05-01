@@ -16,7 +16,16 @@ const config = {
       strict: true,
     }),
     paths: { base },
-    prerender: { handleUnseenRoutes: 'ignore' },
+    prerender: {
+      handleUnseenRoutes: 'ignore',
+      handleHttpError: ({ path, message }) => {
+        if (path === '/favicon.svg') {
+          console.warn('Warning: /favicon.svg not found in static/ — add one or run `gorlab init`')
+          return
+        }
+        throw new Error(message)
+      },
+    },
   },
 }
 
