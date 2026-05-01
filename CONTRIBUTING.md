@@ -108,7 +108,7 @@ The app uses [Skeleton UI](https://skeleton.dev) v4. Themes are CSS files that d
 
 ### Bundled presets
 
-Six presets are imported in `src/app.css`: `cerberus`, `wintry`, `vintage`, `crimson`, `pine`, `modern`. The default is `vintage`.
+Six presets are imported in `src/app.css`: `cerberus`, `wintry`, `vintage`, `crimson`, `pine`, `modern`. The default is `cerberus`.
 
 To add more Skeleton presets, import them in `src/app.css`:
 
@@ -181,6 +181,25 @@ Run `npm run test:unit` to confirm.
 
 ## CI
 
-Every PR to `main` triggers the `test` job in `.github/workflows/build.yml`, which runs `npm run test:unit`. Merging to `main` runs the full suite (`test:unit` + `test:e2e`), builds the site, and deploys to GitHub Pages.
+Every PR to `main` triggers the `build` job in `.github/workflows/build.yml`, which runs `npm run test:unit` and `npm run build`. Merging to `main` triggers a build and deploys to GitHub Pages.
 
-PRs that add new posts with external `cover-image` URLs are processed by `.github/workflows/fetch-covers.yml`: it downloads each image to `static/covers/`, rewrites the frontmatter, and commits the result back to the PR branch before review.
+E2E tests require content in `posts/` and are not run in CI. Run them locally against your own test content before opening a PR:
+
+```bash
+npm run build
+npm run test:e2e
+```
+
+PRs that add posts with external `cover-image` URLs are processed by `.github/workflows/fetch-covers.yml`: it downloads each image to `static/covers/`, rewrites the frontmatter, and commits the result back to the PR branch before review.
+
+
+## Branch strategy
+
+| Branch | Purpose |
+| ------- | ------- |
+| `main` | Package source. No demo content — `posts/` is empty. PRs only; direct push is not allowed. |
+| `gh_pages` | Live demo catalog with real content. Deployed independently; never merges from `main`. |
+
+**`gh_pages` lifecycle (pre-npm):** Currently a full-framework branch with demo posts and its own copy of the app. It is not a consumer of the npm package yet — that restructure happens after v0.1.0 ships.
+
+**`gh_pages` lifecycle (post-npm):** Once `@girtablu/gorlab` is published, `gh_pages` will be restructured as a real end-user project — identical in shape to `gorlab-starter`. All framework files (`src/`, `e2e/`, `svelte.config.js`, etc.) will be removed; the branch will depend on the package via `package.json`. App updates flow through version bumps only, never merges from `main`.

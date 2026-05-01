@@ -10,7 +10,7 @@ export const config = {
   siteUrl: cfg.siteUrl ?? "",
 
   // Appearance
-  theme: cfg.theme ?? "vintage",
+  theme: cfg.theme ?? "cerberus",
 
   // Content display
   postsPerPage: cfg.postsPerPage ?? 24,
