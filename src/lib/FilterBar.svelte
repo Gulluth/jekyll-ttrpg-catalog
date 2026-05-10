@@ -46,23 +46,23 @@
 
 {#if show}
     <div class="flex flex-wrap gap-2">
-        <select class="select flex-1" bind:value={category}>
+        <select class="select flex-1" bind:value={category} aria-label="Filter by category">
             <option value="all">Categories</option>
             {#each categories as cat}<option value={cat}>{cat}</option>{/each}
         </select>
 
-        <select class="select flex-1" bind:value={author}>
+        <select class="select flex-1" bind:value={author} aria-label="Filter by author">
             <option value="all">Authors</option>
             {#each authors as a}<option value={a}>{a}</option>{/each}
         </select>
 
-        <select class="select flex-1" bind:value={genre}>
+        <select class="select flex-1" bind:value={genre} aria-label="Filter by genre">
             <option value="all">Genres</option>
             {#each genres as g}<option value={g}>{g}</option>{/each}
         </select>
 
         {#if showCost}
-            <select class="select flex-1" bind:value={cost}>
+            <select class="select flex-1" bind:value={cost} aria-label="Filter by cost">
                 <option value="all">All Costs</option>
                 {#each costs as c}<option value={c}>{c}</option>{/each}
             </select>

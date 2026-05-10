@@ -1,0 +1,42 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Design Tokens/Shapes" />
+
+# Shapes
+
+Border radius, border widths, and spacing from the Cerberus theme.
+
+## Border Radius
+
+<div style={{ display: 'flex', gap: '2rem', alignItems: 'flex-end', margin: '1.5rem 0' }}>
+  <div style={{ textAlign: 'center' }}>
+    <div style={{ width: '5rem', height: '5rem', background: 'oklch(0.57 0.21 258.29)', borderRadius: '0.25rem' }} />
+    <code style={{ fontSize: '0.75rem' }}>--radius-base</code>
+    <p style={{ margin: 0, fontSize: '0.75rem', color: '#666' }}>0.25rem</p>
+  </div>
+  <div style={{ textAlign: 'center' }}>
+    <div style={{ width: '5rem', height: '5rem', background: 'oklch(0.57 0.21 258.29)', borderRadius: '0.25rem' }} />
+    <code style={{ fontSize: '0.75rem' }}>--radius-container</code>
+    <p style={{ margin: 0, fontSize: '0.75rem', color: '#666' }}>0.25rem</p>
+  </div>
+  <div style={{ textAlign: 'center' }}>
+    <div style={{ width: '5rem', height: '5rem', background: 'oklch(0.57 0.21 258.29)', borderRadius: '9999px' }} />
+    <code style={{ fontSize: '0.75rem' }}>full</code>
+    <p style={{ margin: 0, fontSize: '0.75rem', color: '#666' }}>9999px</p>
+  </div>
+</div>
+
+## Token Reference
+
+| Token | Value |
+|---|---|
+| `--spacing` | `0.25rem` |
+| `--radius-base` | `0.25rem` |
+| `--radius-container` | `0.25rem` |
+| `--default-border-width` | `1px` |
+| `--default-divide-width` | `1px` |
+| `--default-ring-width` | `1px` |
+| `--body-background-color` | `--color-surface-50` |
+| `--body-background-color-dark` | `--color-surface-950` |
+| `--base-font-color` | `--color-surface-950` |
+| `--base-font-color-dark` | `--color-surface-50` |

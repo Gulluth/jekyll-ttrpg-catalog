@@ -49,6 +49,7 @@
     <a
         href={`${base}/resource/${post.slug}/`}
         class="block aspect-2/3 overflow-hidden flex-shrink-0"
+        aria-label={post.name ?? post.slug}
     >
         {#if hasCover}
             <img
