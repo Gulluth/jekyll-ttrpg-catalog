@@ -32,7 +32,7 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: 'npm run preview',
+    command: 'POSTS_DIR=e2e/fixtures/posts npm run build && npm run preview',
     url: baseURL,
     reuseExistingServer: !process.env.CI,
   },

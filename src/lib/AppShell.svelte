@@ -9,6 +9,9 @@
   let dark = $state(false);
 
   $effect(() => {
+    // Storybook controls data-theme via withThemeByDataAttribute; skip here so
+    // the toolbar selection isn't overwritten on every story mount.
+    if (typeof window !== 'undefined' && '__STORYBOOK_ADDONS_CHANNEL__' in window) return;
     document.documentElement.setAttribute('data-theme', config.theme);
     return () => document.documentElement.removeAttribute('data-theme');
   });

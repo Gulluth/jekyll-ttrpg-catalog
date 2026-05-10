@@ -5,7 +5,7 @@ import { config } from '$lib/catalog.js'
 export const prerender = true
 
 export function load() {
-  const posts = parsePosts('posts', config.customFields)
+  const posts = parsePosts(process.env.POSTS_DIR ?? 'posts', config.customFields)
   return {
     posts,
     categories: getCategories(posts),

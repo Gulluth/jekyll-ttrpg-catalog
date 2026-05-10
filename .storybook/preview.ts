@@ -13,15 +13,10 @@ if (typeof document !== 'undefined') {
   try {
     const channel = addons.getChannel();
     const applyGlobals = (globals: Record<string, string>) => {
-      const apply = () => {
-        if (globals.theme) {
-          document.documentElement.setAttribute('data-theme', globals.theme);
-        }
-        document.documentElement.classList.toggle('dark', globals.colorScheme === 'dark');
-      };
-      apply();
-      // Re-apply after Svelte's $effect flush so AppShell can't overwrite the toolbar choice.
-      requestAnimationFrame(apply);
+      if (globals.theme) {
+        document.documentElement.setAttribute('data-theme', globals.theme);
+      }
+      document.documentElement.classList.toggle('dark', globals.colorScheme === 'dark');
     };
     channel.on('updateGlobals', ({ globals }: { globals: Record<string, string> }) => applyGlobals(globals));
     channel.on('setGlobals',    ({ globals }: { globals: Record<string, string> }) => applyGlobals(globals));
@@ -43,14 +38,8 @@ export const globalTypes = {
 };
 
 const withColorScheme: Decorator = (Story, context) => {
-  const theme = context.globals.theme as string | undefined;
   const isDark = context.globals.colorScheme === 'dark';
   document.documentElement.classList.toggle('dark', isDark);
-  // Re-apply after Svelte's $effect flush so AppShell can't overwrite the toolbar choice.
-  requestAnimationFrame(() => {
-    if (theme) document.documentElement.setAttribute('data-theme', theme);
-    document.documentElement.classList.toggle('dark', isDark);
-  });
   return Story();
 };
 
