@@ -1,17 +1,27 @@
 <script module>
   import { defineMeta } from '@storybook/addon-svelte-csf';
+  import type { ImageOrientation } from '$lib/config.js';
 
   const { Story } = defineMeta({
     title: 'Pages/ResourceDetail',
     parameters: { layout: 'fullscreen' },
+    argTypes: {
+      imageOrientation: {
+        control: 'radio',
+        options: ['landscape', 'portrait', 'none'] satisfies ImageOrientation[],
+        description: 'Image layout. Mirrors the per-post frontmatter field.',
+      },
+    },
+    args: {
+      imageOrientation: 'landscape' satisfies ImageOrientation,
+    },
   });
 </script>
 
 <script lang="ts">
-  import SearchInput from '$lib/SearchInput.svelte';
   import { config } from '$lib/catalog.js';
   import type { Post } from '$lib/posts.js';
-
+  import AppShell from '$lib/AppShell.svelte';
   import Page from '../../routes/resource/[slug]/+page.svelte';
 
   const base: Post = {
@@ -33,6 +43,7 @@
     body: '',
     featured: false,
     sort_priority: null,
+    imageOrientation: null,
     meta: {},
   };
 
@@ -51,62 +62,55 @@
   `.trim();
 </script>
 
-<!-- Default: full post with body, stats, tags, and source link -->
+<!-- Default: toggle imageOrientation in the Controls panel -->
 <Story name="Default">
-  <div class="flex min-h-screen flex-col">
-    <header class="border-b border-surface-200-800 px-4 py-3 grid grid-cols-[1fr_auto_1fr] items-center gap-4">
-      <a href="/" class="justify-self-start font-bold text-lg tracking-tight hover:opacity-80 transition-opacity">{config.title}</a>
-      <div class="w-36 sm:w-56 md:w-72"><SearchInput /></div>
-      <div class="justify-self-end"></div>
-    </header>
-    <main class="flex-1">
-      <Page data={{ post: base, config, bodyHtml }} />
-    </main>
-    <footer class="border-t border-surface-200-800 px-4 py-3 text-xs opacity-40 text-center">
-      {config.title} · MIT License
-    </footer>
-  </div>
+  {#snippet template(args)}
+    <AppShell>
+      <Page data={{ post: { ...base, imageOrientation: args.imageOrientation }, config, bodyHtml }} />
+    </AppShell>
+  {/snippet}
 </Story>
 
-<!-- Featured: primary ring accent and sort_priority set -->
+<!-- Landscape: image stacked above text, 3:2 aspect ratio -->
+<Story name="Landscape">
+  <AppShell>
+    <Page data={{ post: { ...base, imageOrientation: 'landscape' }, config, bodyHtml }} />
+  </AppShell>
+</Story>
+
+<!-- Portrait: image left, text right in two columns -->
+<Story name="Portrait">
+  <AppShell>
+    <Page data={{ post: { ...base, imageOrientation: 'portrait' }, config, bodyHtml }} />
+  </AppShell>
+</Story>
+
+<!-- None: no image, text fills full width -->
+<Story name="None">
+  <AppShell>
+    <Page data={{ post: { ...base, imageOrientation: 'none' }, config, bodyHtml }} />
+  </AppShell>
+</Story>
+
+<!-- Featured: primary ring accent -->
 <Story name="Featured">
-  <div class="flex min-h-screen flex-col">
-    <header class="border-b border-surface-200-800 px-4 py-3 grid grid-cols-[1fr_auto_1fr] items-center gap-4">
-      <a href="/" class="justify-self-start font-bold text-lg tracking-tight hover:opacity-80 transition-opacity">{config.title}</a>
-      <div class="w-36 sm:w-56 md:w-72"><SearchInput /></div>
-      <div class="justify-self-end"></div>
-    </header>
-    <main class="flex-1">
-      <Page data={{ post: { ...base, featured: true, sort_priority: 1 }, config, bodyHtml }} />
-    </main>
-    <footer class="border-t border-surface-200-800 px-4 py-3 text-xs opacity-40 text-center">
-      {config.title} · MIT License
-    </footer>
-  </div>
+  <AppShell>
+    <Page data={{ post: { ...base, featured: true, sort_priority: 1 }, config, bodyHtml }} />
+  </AppShell>
 </Story>
 
 <!-- Minimal: only name and slug — no optional fields -->
 <Story name="Minimal">
-  <div class="flex min-h-screen flex-col">
-    <header class="border-b border-surface-200-800 px-4 py-3 grid grid-cols-[1fr_auto_1fr] items-center gap-4">
-      <a href="/" class="justify-self-start font-bold text-lg tracking-tight hover:opacity-80 transition-opacity">{config.title}</a>
-      <div class="w-36 sm:w-56 md:w-72"><SearchInput /></div>
-      <div class="justify-self-end"></div>
-    </header>
-    <main class="flex-1">
-      <Page data={{
-        post: {
-          ...base,
-          summary: null, author: null, source: null, 'source-url': null,
-          genre: null, cost: null, license: null, stats: null,
-          tags: [], category: [], 'cover-image': null,
-        },
-        config,
-        bodyHtml: '',
-      }} />
-    </main>
-    <footer class="border-t border-surface-200-800 px-4 py-3 text-xs opacity-40 text-center">
-      {config.title} · MIT License
-    </footer>
-  </div>
+  <AppShell>
+    <Page data={{
+      post: {
+        ...base,
+        summary: null, author: null, source: null, 'source-url': null,
+        genre: null, cost: null, license: null, stats: null,
+        tags: [], category: [], 'cover-image': null,
+      },
+      config,
+      bodyHtml: '',
+    }} />
+  </AppShell>
 </Story>

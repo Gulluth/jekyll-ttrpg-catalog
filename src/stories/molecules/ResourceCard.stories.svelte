@@ -1,9 +1,20 @@
 <script module>
   import { defineMeta } from '@storybook/addon-svelte-csf';
+  import type { ImageOrientation } from '$lib/config.js';
 
   const { Story } = defineMeta({
     title: 'Molecules/ResourceCard',
     tags: ['autodocs'],
+    argTypes: {
+      imageOrientation: {
+        control: 'radio',
+        options: ['landscape', 'portrait', 'none'] satisfies ImageOrientation[],
+        description: 'Image aspect ratio and layout. Mirrors the per-post frontmatter field.',
+      },
+    },
+    args: {
+      imageOrientation: 'landscape' satisfies ImageOrientation,
+    },
   });
 </script>
 
@@ -30,14 +41,38 @@
     body: '',
     featured: false,
     sort_priority: null,
+    imageOrientation: null,
     meta: {},
   };
 </script>
 
-<!-- Default: full metadata, gradient cover placeholder -->
+<!-- Default: toggle imageOrientation in the Controls panel -->
 <Story name="Default">
+  {#snippet template(args)}
+    <div class="w-56">
+      <ResourceCard post={{ ...base, imageOrientation: args.imageOrientation }} />
+    </div>
+  {/snippet}
+</Story>
+
+<!-- Landscape: 3:2 image box — for wide cover images (A5/half-letter landscape) -->
+<Story name="Landscape">
   <div class="w-56">
-    <ResourceCard post={base} />
+    <ResourceCard post={{ ...base, imageOrientation: 'landscape' }} />
+  </div>
+</Story>
+
+<!-- Portrait: 2:3 image box — for tall cover images (A5/half-letter portrait, book covers) -->
+<Story name="Portrait">
+  <div class="w-56">
+    <ResourceCard post={{ ...base, imageOrientation: 'portrait' }} />
+  </div>
+</Story>
+
+<!-- None: image area hidden; content fills the full card -->
+<Story name="None">
+  <div class="w-56">
+    <ResourceCard post={{ ...base, imageOrientation: 'none' }} />
   </div>
 </Story>
 
@@ -55,11 +90,11 @@
   </div>
 </Story>
 
-<!-- ThreeUp: side-by-side to preview grid spacing and card proportions -->
+<!-- ThreeUp: mixed orientations in a grid to preview per-post overrides -->
 <Story name="ThreeUp">
-  <div class="grid grid-cols-3 gap-6 max-w-md">
-    <ResourceCard post={base} />
-    <ResourceCard post={{ ...base, slug: 'knave', name: 'Knave', author: 'Ben Milton', featured: true }} />
-    <ResourceCard post={{ ...base, slug: 'maze-rats', name: 'Maze Rats', author: 'Ben Milton', category: ['Toolkit'], summary: null }} />
+  <div class="grid grid-cols-3 gap-6 max-w-2xl">
+    <ResourceCard post={{ ...base, imageOrientation: 'landscape' }} />
+    <ResourceCard post={{ ...base, slug: 'knave', name: 'Knave', author: 'Ben Milton', featured: true, imageOrientation: 'portrait' }} />
+    <ResourceCard post={{ ...base, slug: 'maze-rats', name: 'Maze Rats', author: 'Ben Milton', category: ['Toolkit'], summary: null, imageOrientation: 'none' }} />
   </div>
 </Story>

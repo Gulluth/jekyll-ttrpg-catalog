@@ -1,3 +1,5 @@
+export type ImageOrientation = 'landscape' | 'portrait' | 'none'
+
 export interface FilterDimension {
   cloud: boolean
   menu: boolean
@@ -25,4 +27,5 @@ export interface CatalogConfig {
   showCost?: boolean
   siteUrl?: string
   customCss?: string
+  imageOrientation?: ImageOrientation
 }

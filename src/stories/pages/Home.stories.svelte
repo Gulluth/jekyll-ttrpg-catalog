@@ -8,10 +8,9 @@
 </script>
 
 <script lang="ts">
-  import SearchInput from '$lib/SearchInput.svelte';
   import { config } from '$lib/catalog.js';
   import type { Post } from '$lib/posts.js';
-
+  import AppShell from '$lib/AppShell.svelte';
   import Page from '../../routes/+page.svelte';
 
   function makePost(slug: string, name: string, overrides: Partial<Post> = {}): Post {
@@ -21,7 +20,7 @@
       author: 'Sample Author', source: null, 'source-url': null,
       genre: 'fantasy', cost: null, license: null, 'cover-image': null,
       tags: [], stats: null, subtexts: [], body: '', featured: false,
-      sort_priority: null, meta: {},
+      sort_priority: null, imageOrientation: null, meta: {},
       ...overrides,
     };
   }
@@ -51,41 +50,14 @@
 
 <!-- Default: full catalog, all filters reset -->
 <Story name="Default">
-  <div class="flex min-h-screen flex-col">
-    <header class="border-b border-surface-200-800 px-4 py-3 grid grid-cols-[1fr_auto_1fr] items-center gap-4">
-      <span class="justify-self-start font-bold text-lg tracking-tight">{config.title}</span>
-      <div class="w-36 sm:w-56 md:w-72"><SearchInput /></div>
-      <div class="justify-self-end flex items-center gap-3">
-        <span class="text-sm opacity-60">Submit</span>
-        <button class="btn-icon preset-tonal size-8" aria-label="Toggle dark mode">
-          <svg class="size-4" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-          </svg>
-        </button>
-      </div>
-    </header>
-    <main class="flex-1">
-      <Page data={baseData} />
-    </main>
-    <footer class="border-t border-surface-200-800 px-4 py-3 text-xs opacity-40 text-center">
-      {config.title} · MIT License · RSS Feed
-    </footer>
-  </div>
+  <AppShell>
+    <Page data={baseData} />
+  </AppShell>
 </Story>
 
 <!-- Empty: catalog with no posts — shows the empty-state placeholder -->
 <Story name="Empty">
-  <div class="flex min-h-screen flex-col">
-    <header class="border-b border-surface-200-800 px-4 py-3 grid grid-cols-[1fr_auto_1fr] items-center gap-4">
-      <span class="justify-self-start font-bold text-lg tracking-tight">{config.title}</span>
-      <div class="w-36 sm:w-56 md:w-72"><SearchInput /></div>
-      <div class="justify-self-end"></div>
-    </header>
-    <main class="flex-1">
-      <Page data={{ posts: [], categories: [], authors: [], genres: [], costs: [], config }} />
-    </main>
-    <footer class="border-t border-surface-200-800 px-4 py-3 text-xs opacity-40 text-center">
-      {config.title} · MIT License
-    </footer>
-  </div>
+  <AppShell>
+    <Page data={{ posts: [], categories: [], authors: [], genres: [], costs: [], config }} />
+  </AppShell>
 </Story>

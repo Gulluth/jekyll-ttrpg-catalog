@@ -1,5 +1,5 @@
 import rawConfig from "../../gorlab.config.js";
-import type { CatalogConfig, CustomField, FilterDimension } from "./config.js";
+import type { CatalogConfig, CustomField, FilterDimension, ImageOrientation } from "./config.js";
 
 const cfg = rawConfig as CatalogConfig;
 
@@ -34,6 +34,9 @@ export const config = {
   // Community submissions
   showSubmitForm: cfg.showSubmitForm ?? false,
   submitUrl: cfg.submitUrl ?? "",
+
+  // Image layout
+  imageOrientation: (cfg.imageOrientation ?? 'landscape') as ImageOrientation,
 };
 
 export type ResolvedConfig = typeof config;
