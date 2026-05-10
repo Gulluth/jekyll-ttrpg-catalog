@@ -1,0 +1,42 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Design Tokens/Spacing" />
+
+# Spacing
+
+The spacing system is built on a single base unit: `--spacing: 0.25rem` (4px). All spacing utilities (`p-N`, `m-N`, `gap-N`, etc.) multiply this base by their step number.
+
+## Scale
+
+export const steps = [1, 2, 3, 4, 5, 6, 8, 10, 12, 16, 20, 24, 32, 40, 48];
+
+<div style={{ margin: '1.5rem 0', display: 'flex', flexDirection: 'column', gap: '0.625rem' }}>
+  {steps.map(n => (
+    <div key={n} style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+      <div style={{
+        width: `${n * 0.25}rem`,
+        minWidth: '2px',
+        height: '1.5rem',
+        background: 'oklch(0.57 0.21 258.29)',
+        borderRadius: '2px',
+        flexShrink: 0,
+      }} />
+      <code style={{ fontSize: '0.75rem', minWidth: '2.5rem', color: '#374151' }}>{n}</code>
+      <span style={{ fontSize: '0.75rem', color: '#6b7280' }}>{(n * 0.25).toFixed(2).replace(/\.?0+$/, '')}rem&ensp;/&ensp;{n * 4}px</span>
+    </div>
+  ))}
+</div>
+
+## Token Reference
+
+| Token | Value | Usage |
+|---|---|---|
+| `--spacing` | `0.25rem` | Base unit — all steps multiply this |
+| `p-1` / `m-1` | `0.25rem` (4px) | Micro gaps, icon padding |
+| `p-2` / `m-2` | `0.5rem` (8px) | Tight inline spacing |
+| `p-4` / `m-4` | `1rem` (16px) | Default component padding |
+| `p-6` / `m-6` | `1.5rem` (24px) | Card padding, section gaps |
+| `p-8` / `m-8` | `2rem` (32px) | Large section padding |
+| `p-12` / `m-12` | `3rem` (48px) | Page section spacing |
+| `p-16` / `m-16` | `4rem` (64px) | Hero / top-level layout gaps |
+| `p-24` / `m-24` | `6rem` (96px) | Max whitespace |

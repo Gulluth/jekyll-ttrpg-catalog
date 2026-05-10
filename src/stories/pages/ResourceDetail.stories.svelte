@@ -1,0 +1,112 @@
+<script module>
+  import { defineMeta } from '@storybook/addon-svelte-csf';
+
+  const { Story } = defineMeta({
+    title: 'Pages/ResourceDetail',
+    parameters: { layout: 'fullscreen' },
+  });
+</script>
+
+<script lang="ts">
+  import SearchInput from '$lib/SearchInput.svelte';
+  import { config } from '$lib/catalog.js';
+  import type { Post } from '$lib/posts.js';
+
+  import Page from '../../routes/resource/[slug]/+page.svelte';
+
+  const base: Post = {
+    slug: 'the-black-hack',
+    date: '2016-04-01',
+    name: 'The Black Hack',
+    category: ['RPG', 'OSR'],
+    summary: 'A super-streamlined roleplaying game that uses the original 1970s rules as a base. Simple, fast, and deadly — character creation takes minutes.',
+    author: 'David Black',
+    source: 'itch.io',
+    'source-url': 'https://www.itch.io',
+    genre: 'fantasy',
+    cost: 'PWYW',
+    license: 'CC BY 4.0',
+    'cover-image': null,
+    tags: ['osr', 'dungeon-crawl', 'rules-lite'],
+    stats: '1d6 classes · 6 attributes · Usage Dice',
+    subtexts: [],
+    body: '',
+    featured: false,
+    sort_priority: null,
+    meta: {},
+  };
+
+  const bodyHtml = `
+<h2>Overview</h2>
+<p>The Black Hack is a rules-lite tabletop RPG using a single resolution mechanic throughout: roll under your attribute on a d20. It strips away the complexity of its ancestors while keeping the feel of old-school play.</p>
+<h2>What's Included</h2>
+<ul>
+  <li>20-page core rules PDF</li>
+  <li>Four classic classes (Warrior, Conjurer, Cleric, Thief)</li>
+  <li>Usage Dice — an elegant resource management system</li>
+  <li>Monsters with a single HD stat and damage output</li>
+</ul>
+<h2>Design Notes</h2>
+<p>Originally released in 2016, The Black Hack sparked a wave of "Hackett" games. The Usage Dice mechanic has since appeared in dozens of other systems.</p>
+  `.trim();
+</script>
+
+<!-- Default: full post with body, stats, tags, and source link -->
+<Story name="Default">
+  <div class="flex min-h-screen flex-col">
+    <header class="border-b border-surface-200-800 px-4 py-3 grid grid-cols-[1fr_auto_1fr] items-center gap-4">
+      <a href="/" class="justify-self-start font-bold text-lg tracking-tight hover:opacity-80 transition-opacity">{config.title}</a>
+      <div class="w-36 sm:w-56 md:w-72"><SearchInput /></div>
+      <div class="justify-self-end"></div>
+    </header>
+    <main class="flex-1">
+      <Page data={{ post: base, config, bodyHtml }} />
+    </main>
+    <footer class="border-t border-surface-200-800 px-4 py-3 text-xs opacity-40 text-center">
+      {config.title} · MIT License
+    </footer>
+  </div>
+</Story>
+
+<!-- Featured: primary ring accent and sort_priority set -->
+<Story name="Featured">
+  <div class="flex min-h-screen flex-col">
+    <header class="border-b border-surface-200-800 px-4 py-3 grid grid-cols-[1fr_auto_1fr] items-center gap-4">
+      <a href="/" class="justify-self-start font-bold text-lg tracking-tight hover:opacity-80 transition-opacity">{config.title}</a>
+      <div class="w-36 sm:w-56 md:w-72"><SearchInput /></div>
+      <div class="justify-self-end"></div>
+    </header>
+    <main class="flex-1">
+      <Page data={{ post: { ...base, featured: true, sort_priority: 1 }, config, bodyHtml }} />
+    </main>
+    <footer class="border-t border-surface-200-800 px-4 py-3 text-xs opacity-40 text-center">
+      {config.title} · MIT License
+    </footer>
+  </div>
+</Story>
+
+<!-- Minimal: only name and slug — no optional fields -->
+<Story name="Minimal">
+  <div class="flex min-h-screen flex-col">
+    <header class="border-b border-surface-200-800 px-4 py-3 grid grid-cols-[1fr_auto_1fr] items-center gap-4">
+      <a href="/" class="justify-self-start font-bold text-lg tracking-tight hover:opacity-80 transition-opacity">{config.title}</a>
+      <div class="w-36 sm:w-56 md:w-72"><SearchInput /></div>
+      <div class="justify-self-end"></div>
+    </header>
+    <main class="flex-1">
+      <Page data={{
+        post: {
+          ...base,
+          summary: null, author: null, source: null, 'source-url': null,
+          genre: null, cost: null, license: null, stats: null,
+          tags: [], category: [], 'cover-image': null,
+        },
+        config,
+        bodyHtml: '',
+      }} />
+    </main>
+    <footer class="border-t border-surface-200-800 px-4 py-3 text-xs opacity-40 text-center">
+      {config.title} · MIT License
+    </footer>
+  </div>
+</Story>

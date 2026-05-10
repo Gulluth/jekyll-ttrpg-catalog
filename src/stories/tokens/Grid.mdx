@@ -1,0 +1,90 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Design Tokens/Grid" />
+
+# Grid & Layout
+
+Breakpoints, container widths, and column grid patterns from Tailwind v4.
+
+## Breakpoints
+
+<div style={{ margin: '1.5rem 0 2.5rem', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+  {[
+    { name: 'sm',  token: '--breakpoint-sm',  rem: '40rem',  px: '640px' },
+    { name: 'md',  token: '--breakpoint-md',  rem: '48rem',  px: '768px' },
+    { name: 'lg',  token: '--breakpoint-lg',  rem: '64rem',  px: '1024px' },
+    { name: 'xl',  token: '--breakpoint-xl',  rem: '80rem',  px: '1280px' },
+    { name: '2xl', token: '--breakpoint-2xl', rem: '96rem',  px: '1536px' },
+  ].map(({ name, token, rem, px }) => (
+    <div key={name} style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+      <code style={{ minWidth: '2.5rem', fontSize: '0.8rem', color: '#374151' }}>{name}</code>
+      <div style={{ position: 'relative', flex: 1, height: '1.25rem', background: '#f3f4f6', borderRadius: '2px', overflow: 'hidden' }}>
+        <div style={{
+          position: 'absolute',
+          left: 0, top: 0, bottom: 0,
+          width: `${(parseInt(px) / 1536) * 100}%`,
+          background: 'oklch(0.57 0.21 258.29)',
+          borderRadius: '2px',
+        }} />
+      </div>
+      <code style={{ fontSize: '0.75rem', color: '#6b7280', minWidth: '8rem' }}>{token}</code>
+      <span style={{ fontSize: '0.75rem', color: '#6b7280', minWidth: '5rem' }}>{rem} / {px}</span>
+    </div>
+  ))}
+</div>
+
+## Columns
+
+Common grid column layouts. Each cell is a `1fr` column within a CSS grid.
+
+export const colCounts = [1, 2, 3, 4, 6, 12];
+
+export const Cell = ({ span = 1 }) => (
+  <div style={{
+    gridColumn: `span ${span}`,
+    background: 'oklch(0.57 0.21 258.29)',
+    opacity: 0.15 + (span * 0.05),
+    borderRadius: '3px',
+    height: '2.5rem',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  }}>
+    <span style={{ fontSize: '0.7rem', color: '#1e3a8a', fontWeight: 500 }}>
+      {span === 1 ? '1 col' : `${span} col`}
+    </span>
+  </div>
+);
+
+<div style={{ display: 'flex', flexDirection: 'column', gap: '2rem', margin: '1.5rem 0' }}>
+  {colCounts.map(cols => (
+    <div key={cols}>
+      <code style={{ fontSize: '0.8rem', color: '#374151', display: 'block', marginBottom: '0.5rem' }}>
+        grid-cols-{cols}
+      </code>
+      <div style={{ display: 'grid', gridTemplateColumns: `repeat(${cols}, 1fr)`, gap: '0.5rem' }}>
+        {Array.from({ length: cols }).map((_, i) => (
+          <Cell key={i} span={1} />
+        ))}
+      </div>
+    </div>
+  ))}
+</div>
+
+## Container Widths
+
+Named container sizes map to `max-width` values used with utility classes like `max-w-sm`, `max-w-lg`, etc.
+
+| Token | Value | Common use |
+|---|---|---|
+| `--container-xs` | `20rem` (320px) | Narrow cards, mobile popups |
+| `--container-sm` | `24rem` (384px) | Compact forms |
+| `--container-md` | `28rem` (448px) | Modals, dialogs |
+| `--container-lg` | `32rem` (512px) | Article width |
+| `--container-xl` | `36rem` (576px) | Wide forms |
+| `--container-2xl` | `42rem` (672px) | Readable prose |
+| `--container-3xl` | `48rem` (768px) | Tablet content |
+| `--container-4xl` | `56rem` (896px) | |
+| `--container-5xl` | `64rem` (1024px) | Full desktop layout |
+| `--container-6xl` | `72rem` (1152px) | Wide desktop |
+| `--container-7xl` | `80rem` (1280px) | Max content width |

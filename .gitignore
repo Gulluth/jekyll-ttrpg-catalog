@@ -7,3 +7,6 @@ dist/
 *.tgz
 playwright-report/
 test-results/
+
+*storybook.log
+storybook-static

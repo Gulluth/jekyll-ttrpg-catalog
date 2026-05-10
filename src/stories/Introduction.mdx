@@ -1,0 +1,81 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Introduction" />
+
+# Gorlab Design System
+
+The Gorlab Design System is built on **Skeleton UI v3**, **Tailwind CSS v4**, and **SvelteKit**. The Cerberus theme provides all starting defaults — colors, type, spacing, radii, and motion.
+
+## Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Framework | SvelteKit |
+| Component library | Skeleton UI v3 |
+| Styling | Tailwind CSS v4 |
+| Starting theme | Cerberus |
+| Dark mode | `.dark` class on `<html>` → `color-scheme: dark` |
+| Color space | OKLCH throughout |
+
+## Design Token Sections
+
+| Section | What it covers |
+|---|---|
+| **Colors** | 7 semantic palettes (primary → surface), 50–950 scale |
+| **Typography** | Type scale, font weights, tracking, leading |
+| **Spacing** | Base unit `0.25rem` and full step scale |
+| **Grid** | Breakpoints, column layouts, container widths |
+| **Depth** | Box shadow elevation from flat to overlay |
+| **Shapes** | Border radius (base + Tailwind scale) and border widths |
+| **Motion** | Easing curves, default transition, built-in animations |
+| **Layers** | Z-index stacking order and usage conventions |
+| **Dark Mode** | How `light-dark()` paired tokens and `.dark` work together |
+
+## How Theming Works
+
+The `data-theme` attribute on `<html>` loads a Skeleton theme's CSS custom properties. Storybook is initialized with `data-theme="cerberus"`.
+
+```html
+<html data-theme="cerberus">
+```
+
+Dark mode is activated by adding the `.dark` class to `<html>`, which switches `color-scheme` from `light` to `dark`. All Skeleton's paired color tokens (e.g. `--color-surface-50-950`) automatically resolve to their dark variant via CSS `light-dark()`.
+
+```html
+<html data-theme="cerberus" class="dark">
+```
+
+## Storybook Toolbar
+
+Two independent controls in the Storybook toolbar let you test any theme × mode combination without touching code.
+
+| Control | What it does |
+|---|---|
+| **Theme dropdown** | Sets `data-theme` on `<html>` — switches the full token set |
+| **Light / Dark toggle** | Adds/removes `.dark` on `<html>` — flips all paired tokens |
+
+The currently loaded themes are:
+
+| Theme | Description |
+|---|---|
+| **cerberus** | Default — blue primary, purple secondary, neutral surface |
+| **wintry** | Cool blues and icy neutrals |
+| **vintage** | Warm, muted, earthy tones |
+| **crimson** | Deep reds and dark surfaces |
+| **pine** | Forest greens |
+| **modern** | High-contrast monochrome |
+
+### Adding a Custom Theme
+
+1. Generate a theme at [themes.skeleton.dev](https://themes.skeleton.dev)
+2. Save the output as a CSS file in the project (e.g. `src/themes/my-theme.css`)
+3. Import it in `src/app.css`:
+   ```css
+   @import './themes/my-theme';
+   ```
+4. Add it to the toolbar dropdown in `.storybook/preview.ts`:
+   ```ts
+   'my-theme': 'my-theme',
+   ```
+
+The generated CSS uses a `[data-theme='my-theme'] { ... }` selector, so the toolbar picks it up automatically with no other changes.

@@ -1,0 +1,125 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Design Tokens/Dark Mode" />
+
+# Dark Mode
+
+Gorlab uses a class-based dark mode. Adding `.dark` to `<html>` switches `color-scheme` from `light` to `dark`, which causes all of Skeleton's `light-dark()` paired tokens to resolve to their dark variant automatically.
+
+## How It Works
+
+```
+<html data-theme="cerberus">          → light mode
+<html data-theme="cerberus" class="dark">  → dark mode
+```
+
+**Step by step:**
+
+1. `app.css` declares `@custom-variant dark (&:where(.dark, .dark *))` — the `.dark` class anywhere in the ancestor chain activates the `dark` variant.
+2. Skeleton's `globals.css` sets `color-scheme: light` on `:root` and overrides it to `color-scheme: dark` under the `dark` variant.
+3. All Skeleton paired tokens use CSS `light-dark(lightValue, darkValue)`. When `color-scheme` is `dark`, the dark value resolves.
+
+## Paired Tokens
+
+Skeleton generates paired tokens for every step in every palette — e.g. `--color-surface-50-950` resolves to `surface-50` in light and `surface-950` in dark. Use these in components instead of hardcoding a single step.
+
+| Pattern | Light resolves to | Dark resolves to |
+|---|---|---|
+| `--color-surface-50-950` | `surface-50` | `surface-950` |
+| `--color-surface-100-900` | `surface-100` | `surface-900` |
+| `--color-surface-200-800` | `surface-200` | `surface-800` |
+| `--color-surface-300-700` | `surface-300` | `surface-700` |
+| `--color-primary-50-950` | `primary-50` | `primary-950` |
+| `--color-primary-500-*` | `primary-500` | *— (use inverse pattern)* |
+| `--color-primary-950-50` | `primary-950` | `primary-50` |
+
+The naming convention is always `light-stop`–`dark-stop`.
+
+## Surface in Light vs Dark
+
+<div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', margin: '1.5rem 0 2rem' }}>
+  <div style={{ borderRadius: '0.5rem', overflow: 'hidden', border: '1px solid oklch(0.91 0 0)' }}>
+    <div style={{ background: 'oklch(0.99 0 0)', padding: '1rem 1.25rem', borderBottom: '1px solid oklch(0.91 0 0)' }}>
+      <strong style={{ fontSize: '0.8rem', color: '#6b7280' }}>☀️ Light — surface-50</strong>
+    </div>
+    <div style={{ background: 'oklch(0.99 0 0)', padding: '1.25rem' }}>
+      {[
+        { label: 'surface-50  (body bg)',  bg: 'oklch(0.99 0 0)', text: 'oklch(0.18 0 0)' },
+        { label: 'surface-100 (card)',      bg: 'oklch(0.91 0 0)', text: 'oklch(0.18 0 0)' },
+        { label: 'surface-200',            bg: 'oklch(0.81 0 0)', text: 'oklch(0.18 0 0)' },
+        { label: 'surface-300',            bg: 'oklch(0.72 0 0)', text: 'oklch(0.18 0 0)' },
+        { label: 'surface-950 (text)',     bg: 'oklch(0.18 0 0)', text: 'oklch(0.99 0 0)' },
+      ].map(({ label, bg, text }) => (
+        <div key={label} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.5rem' }}>
+          <div style={{ width: '2rem', height: '2rem', background: bg, borderRadius: '0.25rem', border: '1px solid oklch(0.81 0 0)', flexShrink: 0 }} />
+          <code style={{ fontSize: '0.72rem', color: text === 'oklch(0.18 0 0)' ? '#374151' : '#6b7280' }}>{label}</code>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <div style={{ borderRadius: '0.5rem', overflow: 'hidden', border: '1px solid oklch(0.32 0 0)' }}>
+    <div style={{ background: 'oklch(0.25 0 0)', padding: '1rem 1.25rem', borderBottom: '1px solid oklch(0.32 0 0)' }}>
+      <strong style={{ fontSize: '0.8rem', color: '#9ca3af' }}>🌙 Dark — surface-950</strong>
+    </div>
+    <div style={{ background: 'oklch(0.18 0 0)', padding: '1.25rem' }}>
+      {[
+        { label: 'surface-950 (body bg)',  bg: 'oklch(0.18 0 0)', text: 'oklch(0.91 0 0)' },
+        { label: 'surface-900 (card)',      bg: 'oklch(0.25 0 0)', text: 'oklch(0.91 0 0)' },
+        { label: 'surface-800',            bg: 'oklch(0.32 0 0)', text: 'oklch(0.91 0 0)' },
+        { label: 'surface-700',            bg: 'oklch(0.39 0 0)', text: 'oklch(0.91 0 0)' },
+        { label: 'surface-50  (text)',     bg: 'oklch(0.99 0 0)', text: 'oklch(0.18 0 0)' },
+      ].map(({ label, bg, text }) => (
+        <div key={label} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.5rem' }}>
+          <div style={{ width: '2rem', height: '2rem', background: bg, borderRadius: '0.25rem', border: '1px solid oklch(0.32 0 0)', flexShrink: 0 }} />
+          <code style={{ fontSize: '0.72rem', color: '#9ca3af' }}>{label}</code>
+        </div>
+      ))}
+    </div>
+  </div>
+</div>
+
+## Live Toggle
+
+The button below adds/removes `.dark` from `<html>` for this entire Storybook session.
+
+<div style={{ margin: '1.5rem 0' }}>
+  <button
+    onClick={() => document.documentElement.classList.toggle('dark')}
+    style={{
+      padding: '0.625rem 1.25rem',
+      background: 'oklch(0.57 0.21 258.29)',
+      color: '#fff',
+      border: 'none',
+      borderRadius: '0.25rem',
+      fontSize: '0.875rem',
+      cursor: 'pointer',
+      fontWeight: 500,
+    }}
+  >
+    Toggle dark mode on &lt;html&gt;
+  </button>
+  <p style={{ marginTop: '0.75rem', fontSize: '0.8rem', color: '#6b7280' }}>
+    Click again to return to light mode. Reloading Storybook resets to light.
+  </p>
+</div>
+
+## Writing Dark-Mode-Aware Components
+
+Prefer paired tokens over hardcoded steps:
+
+```css
+/* ✅ Adapts automatically */
+background: var(--color-surface-50-950);
+color: var(--color-surface-950-50);
+
+/* ❌ Only works in one mode */
+background: var(--color-surface-50);
+color: var(--color-surface-950);
+```
+
+In Tailwind classes, use the `dark:` variant modifier:
+
+```svelte
+<div class="bg-surface-50 dark:bg-surface-950 text-surface-950 dark:text-surface-50">
+```

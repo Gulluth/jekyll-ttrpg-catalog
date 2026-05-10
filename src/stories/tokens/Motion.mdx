@@ -1,0 +1,133 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Design Tokens/Motion" />
+
+# Motion
+
+Easing curves, transition defaults, and built-in animation presets from Tailwind v4. Motion should feel purposeful — fast enough to not delay the user, slow enough to communicate cause and effect.
+
+## Easing Curves
+
+<style>{`
+  @keyframes slide-demo {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(calc(100% - 3rem)); }
+  }
+  .ease-track { position: relative; width: 100%; height: 3rem; background: oklch(0.91 0 0); border-radius: 0.25rem; overflow: hidden; }
+  .ease-ball  { position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 3rem; height: 3rem; border-radius: 50%; background: oklch(0.57 0.21 258.29); animation: slide-demo 1.2s infinite alternate; }
+  .ease-ball--in      { animation-timing-function: cubic-bezier(0.4, 0, 1, 1); }
+  .ease-ball--out     { animation-timing-function: cubic-bezier(0, 0, 0.2, 1); }
+  .ease-ball--in-out  { animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1); }
+  .ease-ball--linear  { animation-timing-function: linear; }
+`}</style>
+
+export const easings = [
+  { label: 'ease-in',     cls: 'ease-ball--in',     token: '--ease-in',     value: 'cubic-bezier(0.4, 0, 1, 1)',     desc: 'Slow start, fast finish. Use for elements leaving the screen.' },
+  { label: 'ease-out',    cls: 'ease-ball--out',    token: '--ease-out',    value: 'cubic-bezier(0, 0, 0.2, 1)',     desc: 'Fast start, slow finish. Use for elements entering the screen.' },
+  { label: 'ease-in-out', cls: 'ease-ball--in-out', token: '--ease-in-out', value: 'cubic-bezier(0.4, 0, 0.2, 1)',  desc: 'Default. Smooth acceleration and deceleration. Use for in-place transitions.' },
+  { label: 'linear',      cls: 'ease-ball--linear', token: null,            value: 'linear',                        desc: 'Constant speed. Use for continuous animations like spinners.' },
+];
+
+<div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', margin: '1.5rem 0' }}>
+  {easings.map(({ label, cls, token, value, desc }) => (
+    <div key={label} style={{ display: 'grid', gridTemplateColumns: '1fr 1.8fr', gap: '1.5rem', alignItems: 'center' }}>
+      <div>
+        <code style={{ fontSize: '0.85rem', display: 'block', marginBottom: '0.25rem' }}>{label}</code>
+        {token && <code style={{ fontSize: '0.7rem', color: '#6b7280', display: 'block', marginBottom: '0.25rem' }}>{token}</code>}
+        <code style={{ fontSize: '0.7rem', color: '#9ca3af', display: 'block', marginBottom: '0.375rem' }}>{value}</code>
+        <span style={{ fontSize: '0.75rem', color: '#6b7280' }}>{desc}</span>
+      </div>
+      <div className="ease-track">
+        <div className={`ease-ball ${cls}`} />
+      </div>
+    </div>
+  ))}
+</div>
+
+## Duration Presets
+
+Tailwind v4 sets the default transition duration to `150ms`. The full utility scale follows the same progression Tailwind has always used:
+
+| Class | Duration | When to use |
+|---|---|---|
+| `duration-75` | 75ms | Micro-interactions, tooltips |
+| `duration-100` | 100ms | Hover states, focus rings |
+| `duration-150` | **150ms** | **Default** — most transitions |
+| `duration-200` | 200ms | Dropdowns, small reveals |
+| `duration-300` | 300ms | Modals, drawers, panels |
+| `duration-500` | 500ms | Page-level transitions |
+| `duration-700` | 700ms | Dramatic reveals |
+
+| Token | Value |
+|---|---|
+| `--default-transition-duration` | `150ms` |
+| `--default-transition-timing-function` | `cubic-bezier(0.4, 0, 0.2, 1)` (ease-in-out) |
+
+## Built-in Animations
+
+<style>{`
+  .anim-ring {
+    width: 2.5rem; height: 2.5rem;
+    border-radius: 50%;
+    border: 3px solid oklch(0.57 0.21 258.29);
+    border-top-color: transparent;
+    animation: spin 1s linear infinite;
+  }
+  .anim-ping-wrapper { position: relative; width: 2.5rem; height: 2.5rem; display: flex; align-items: center; justify-content: center; }
+  .anim-ping-dot { width: 1rem; height: 1rem; border-radius: 50%; background: oklch(0.57 0.21 258.29); }
+  .anim-ping-ring { position: absolute; width: 100%; height: 100%; border-radius: 50%; background: oklch(0.57 0.21 258.29); animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite; opacity: 0.75; }
+  .anim-pulse-box { width: 5rem; height: 1.25rem; border-radius: 0.25rem; background: oklch(0.81 0 0); animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+  .anim-bounce-dot { width: 1.5rem; height: 1.5rem; border-radius: 50%; background: oklch(0.57 0.21 258.29); animation: bounce 1s infinite; }
+`}</style>
+
+export const animations = [
+  {
+    name: 'spin',
+    token: '--animate-spin',
+    value: 'spin 1s linear infinite',
+    desc: 'Continuous 360° rotation. Loading spinners, progress indicators.',
+    demo: <div className="anim-ring" />,
+  },
+  {
+    name: 'ping',
+    token: '--animate-ping',
+    value: 'ping 1s cubic-bezier(0, 0, 0.2, 1) infinite',
+    desc: 'Expanding ring that fades out. Notification badges, live indicators.',
+    demo: (
+      <div className="anim-ping-wrapper">
+        <div className="anim-ping-ring" />
+        <div className="anim-ping-dot" />
+      </div>
+    ),
+  },
+  {
+    name: 'pulse',
+    token: '--animate-pulse',
+    value: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+    desc: 'Fade in/out cycle. Skeleton loading placeholders.',
+    demo: <div className="anim-pulse-box" />,
+  },
+  {
+    name: 'bounce',
+    token: '--animate-bounce',
+    value: 'bounce 1s infinite',
+    desc: 'Vertical bounce. Scroll hints, attention-grabbing indicators.',
+    demo: <div className="anim-bounce-dot" />,
+  },
+];
+
+<div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', margin: '1.5rem 0' }}>
+  {animations.map(({ name, token, value, desc, demo }) => (
+    <div key={name} style={{ display: 'grid', gridTemplateColumns: '4rem 1fr', gap: '1.5rem', alignItems: 'center' }}>
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '3.5rem' }}>
+        {demo}
+      </div>
+      <div>
+        <code style={{ fontSize: '0.85rem', display: 'block', marginBottom: '0.125rem' }}>animate-{name}</code>
+        <code style={{ fontSize: '0.7rem', color: '#6b7280', display: 'block', marginBottom: '0.125rem' }}>{token}</code>
+        <code style={{ fontSize: '0.7rem', color: '#9ca3af', display: 'block', marginBottom: '0.375rem' }}>{value}</code>
+        <span style={{ fontSize: '0.75rem', color: '#6b7280' }}>{desc}</span>
+      </div>
+    </div>
+  ))}
+</div>
