@@ -37,7 +37,7 @@
 </script>
 
 <script lang="ts">
-  import { ArrowRight } from 'lucide-svelte';
+  import ArrowRight from 'lucide-svelte/icons/arrow-right';
 
   let activeMonth = $state('January');
   const months = ['January', 'February', 'March'];

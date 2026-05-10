@@ -8,7 +8,12 @@
 </script>
 
 <script lang="ts">
-  import { ChevronLeft, ChevronRight, ArrowRight, Check, X, Heart } from 'lucide-svelte';
+  import ChevronLeft from 'lucide-svelte/icons/chevron-left';
+  import ChevronRight from 'lucide-svelte/icons/chevron-right';
+  import ArrowRight from 'lucide-svelte/icons/arrow-right';
+  import Check from 'lucide-svelte/icons/check';
+  import X from 'lucide-svelte/icons/x';
+  import Heart from 'lucide-svelte/icons/heart';
 </script>
 
 <!-- Lucide: all lucide-svelte icons used in app components -->
