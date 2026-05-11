@@ -1,8 +1,7 @@
 /**
- * Gorlab configuration — the only file you need to edit to customise your catalog.
- *
- * Commented-out options show the default value. The catalog behaves as if that
- * line were present. To override a setting: uncomment it, then change the value.
+ * Gorlab configuration
+ * The commented-out options show the default value. 
+ * To override a setting: uncomment it, then change the value.
  */
 
 export default {
@@ -32,6 +31,16 @@ export default {
 
   // ── Content display ───────────────────────────────────────────────────────
   // postsPerPage: 24,
+
+  // imageOrientation: controls how cover images are displayed across cards and
+  // resource pages. Match this to the shape of your cover images.
+  //   'landscape' (default) — wide images (e.g. A5/half-letter landscape).
+  //                           Cards use a 3:2 box. Resource page: image above text.
+  //   'portrait'            — tall images (e.g. A5/half-letter portrait, book covers).
+  //                           Cards use a 2:3 box. Resource page: image left, text right.
+  //   'none'                — no cover images; content fills full width everywhere.
+  // Individual posts can override this with imageOrientation: in their frontmatter.
+  // imageOrientation: 'landscape',
 
   // showCost: set to false to hide price info everywhere (cards, filters, pages).
   // showCost: false,

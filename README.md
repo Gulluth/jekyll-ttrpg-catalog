@@ -6,15 +6,9 @@ Gorlab is a static content library framework for gamers.
 
 ## Using gorlab
 
-**Looking to set up or manage a catalog?** Start here:
+**Looking to set up or manage a catalog?**
 
-| Path | How |
-|------|-----|
-| **A — GitHub UI** (no local tools) | Use the [gorlab-starter](https://github.com/girtablu/gorlab-starter) template → configure → add posts → commit → live |
-| **B — Local** | Use gorlab-starter → clone → `npm install` → `npm run dev` |
-| **C — CLI** | `npx @gulluth/gorlab init` → `npm install` → `npm run dev` |
-
-Setup guide, configuration reference, theming, and deployment: **[starter-template/README.md](starter-template/README.md)**
+For setup, configuration reference, theming, and deployment, see the **[starter template](https://github.com/girtablu/gorlab-starter/blob/main/README.md)**.
 
 ## Contributing
 
