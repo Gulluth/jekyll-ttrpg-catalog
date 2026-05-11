@@ -36,6 +36,21 @@ export default defineConfig({
       storybookTest({
         configDir: path.join(dirname, '.storybook')
       })],
+      optimizeDeps: {
+        // The dep-scan of story files fails on `import type` TS syntax, so Vite falls back to
+        // lazy discovery. Pre-including these prevents the mid-collection optimizer restarts
+        // that break the storybook browser tests on CI cold starts.
+        include: [
+          '@storybook/addon-themes',
+          '@skeletonlabs/skeleton-svelte',
+          'lucide-svelte/icons/chevron-left',
+          'lucide-svelte/icons/chevron-right',
+          'lucide-svelte/icons/arrow-right',
+          'lucide-svelte/icons/check',
+          'lucide-svelte/icons/x',
+          'lucide-svelte/icons/heart',
+        ],
+      },
       test: {
         name: 'storybook',
         fileParallelism: false,
