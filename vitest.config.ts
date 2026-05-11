@@ -36,6 +36,11 @@ export default defineConfig({
       storybookTest({
         configDir: path.join(dirname, '.storybook')
       })],
+      server: {
+        warmup: {
+          clientFiles: ['./src/stories/**/*.stories.svelte'],
+        },
+      },
       test: {
         name: 'storybook',
         browser: {
