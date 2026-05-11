@@ -1,7 +1,9 @@
 import { readdirSync, readFileSync } from 'node:fs'
 import { join, basename } from 'node:path'
 import matter from 'gray-matter'
-import type { CustomField } from './config.js'
+import type { CustomField, ImageOrientation } from './config.js'
+
+const VALID_ORIENTATIONS = new Set<string>(['landscape', 'portrait', 'none'])
 
 export interface Post {
   slug: string
@@ -22,6 +24,7 @@ export interface Post {
   body: string
   featured: boolean
   sort_priority: number | null
+  imageOrientation: ImageOrientation | null
   meta: Record<string, string | string[]>
 }
 
@@ -91,6 +94,7 @@ export function parsePosts(dir = 'posts', customFields: CustomField[] = []): Pos
         body: content.trim(),
         featured: data.featured === true,
         sort_priority: typeof data.sort_priority === 'number' ? data.sort_priority : null,
+        imageOrientation: VALID_ORIENTATIONS.has(data.imageOrientation as string) ? data.imageOrientation as ImageOrientation : null,
         meta,
       }]
     } catch (e) {

@@ -22,11 +22,12 @@
         const h = hashString(name);
         const hue1 = h % 360;
         const hue2 = (h + 137) % 360;
-        return `linear-gradient(135deg, hsl(${hue1} 25% 18%), hsl(${hue2} 25% 28%))`;
+        return `linear-gradient(135deg, color-mix(in oklch, var(--color-surface-200-800) 75%, oklch(0.5 0.15 ${hue1}) 25%), color-mix(in oklch, var(--color-surface-300-700) 70%, oklch(0.5 0.15 ${hue2}) 30%))`;
     }
 
     const categories = $derived(toArray(post.category));
     const author = $derived(toArray(post.author).join(", "));
+    const orientation = $derived(post.imageOrientation ?? config.imageOrientation);
     const hasCover = $derived(Boolean(post["cover-image"]));
     const coverSrc = $derived(
         post["cover-image"]?.startsWith("/")
@@ -46,22 +47,24 @@
         : ''}"
 >
     <!-- Cover image or gradient placeholder -->
-    <a
-        href={`${base}/resource/${post.slug}/`}
-        class="block aspect-2/3 overflow-hidden flex-shrink-0"
-        aria-label={post.name ?? post.slug}
-    >
-        {#if hasCover}
-            <img
-                src={coverSrc}
-                alt={post.name}
-                class="w-full h-full object-cover"
-                loading="lazy"
-            />
-        {:else}
-            <div class="w-full h-full" style={coverStyle}></div>
-        {/if}
-    </a>
+    {#if orientation !== 'none'}
+        <a
+            href={`${base}/resource/${post.slug}/`}
+            class="block {orientation === 'portrait' ? 'aspect-2/3' : 'aspect-3/2'} overflow-hidden shrink-0"
+            aria-label={post.name ?? post.slug}
+        >
+            {#if hasCover}
+                <img
+                    src={coverSrc}
+                    alt={post.name}
+                    class="w-full h-full object-cover"
+                    loading="lazy"
+                />
+            {:else}
+                <div class="w-full h-full" style={coverStyle}></div>
+            {/if}
+        </a>
+    {/if}
 
     <!-- Card body -->
     <div class="flex flex-col flex-1 p-4 gap-2">

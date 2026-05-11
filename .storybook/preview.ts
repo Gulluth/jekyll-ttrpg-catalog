@@ -93,7 +93,7 @@ const preview: Preview = {
           ],
           'Atoms', ['Button', 'Badge', 'Chip', 'Card', 'Divider', 'Input', 'Select', 'Textarea'],
           'Molecules', ['InputGroup', 'ResourceCard', 'TagCloud', 'Pagination', 'Feedback'],
-          'Organisms', ['SearchInput', 'FilterBar', 'CardGrid', 'Navigation', 'Footer'],
+          'Organisms', ['AppShell', 'SearchInput', 'FilterBar', 'CardGrid', 'Navigation', 'Footer'],
           'Pages', ['Home', 'ResourceDetail'],
           '*',
         ],

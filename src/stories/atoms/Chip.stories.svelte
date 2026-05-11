@@ -31,7 +31,8 @@
 </script>
 
 <script lang="ts">
-  import { Check, X } from 'lucide-svelte';
+  import Check from 'lucide-svelte/icons/check';
+  import X from 'lucide-svelte/icons/x';
 
   const sizes = ['XS', 'S', 'M', 'L', 'XL'];
   let selectedSize = $state('M');

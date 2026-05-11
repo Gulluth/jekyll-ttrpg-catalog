@@ -31,6 +31,7 @@
       body: '',
       featured: false,
       sort_priority: null,
+      imageOrientation: null,
       meta: {},
       ...overrides,
     };
