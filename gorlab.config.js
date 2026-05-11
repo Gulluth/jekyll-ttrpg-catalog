@@ -1,14 +1,16 @@
 /**
  * @type {import('./src/lib/config.js').CatalogConfig}
  *
- * Commented-out options show the default value — the system behaves as if
- * that line were present. To override a setting: uncomment it, then change
- * the value. Leaving a line commented keeps the documented default in effect.
+ * Gorlab configuration
+ * The commented-out options show the default value. 
+ * To override a setting: uncomment it, then change the value.
  */
 
 export default {
   // ── Identity ──────────────────────────────────────────────────────────────
   title: "Girtablu's Gorlab",
+  
+  // description: shown in the header subtitle and page meta tags.
   description:
     "A curious and unusual brick-a-brac, for curious and unusual folk.",
 
