@@ -8,7 +8,7 @@ Gorlab is a static content library framework for gamers.
 
 **Looking to set up or manage a catalog?**
 
-For setup, configuration reference, theming, and deployment, see the **[starter template](https://github.com/girtablu/gorlab-starter/blob/main/README.md)**.
+For setup, configuration reference, theming, and deployment, see the **[starter template](https://github.com/girtablu/gorlab-starter/)**.
 
 ## Contributing
 
