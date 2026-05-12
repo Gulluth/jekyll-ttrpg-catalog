@@ -2,28 +2,22 @@
 
 A filterable card catalog built with [Gorlab](https://github.com/girtablu/gorlab).
 
-> **Not a site owner?** If you're looking to contribute to the gorlab framework itself, see the [gorlab repo](https://github.com/girtablu/gorlab) instead.
-
----
-
 ## Quick start
 
-**GitHub UI (no local tools needed):**
+### GitHub UI:
 
 1. Click **Use this template** → create your repo
-2. Go to **Settings → Pages**, set Source to **GitHub Actions**
+2. **In your new repo**, go to **Settings → Pages**, set Source to **GitHub Actions**
 3. Edit `gorlab.config.js` — set your `title` — commit → site deploys automatically
-4. Add posts to `posts/` — commit → site rebuilds
+4. Add posts to `posts/` — commit → site updates automatically
 
-**Local:**
+### For local development (optional):
 
 ```bash
 git clone your-repo
 npm install
 npm run dev       # preview at http://localhost:5173
 ```
-
----
 
 ## Adding content
 
@@ -63,15 +57,13 @@ Only `name` is required. Every other field degrades gracefully when absent.
 
 ### Cover images
 
-External `cover-image` URLs are downloaded automatically to `static/covers/` by the CI workflow when you open a PR. No manual step needed.
+External `cover-image` URLs are downloaded automatically to `static/covers/` by `Github Actions` when you open a pull request.
 
 To add a cover image locally, place the file in `static/covers/` and set:
 
 ```yaml
-cover-image: /covers/filename.webp
+cover-image: /covers/filename.(jpg|gif|png|webp)
 ```
-
----
 
 ## Posts structure
 
@@ -86,8 +78,6 @@ posts/
 ```
 
 Subdirectory names have no effect on categories. Categories come only from the `category:` field in each post's frontmatter. Organize subdirectories however makes sense for you — the catalog ignores the folder structure.
-
----
 
 ## Configuration
 
@@ -153,8 +143,6 @@ To tweak styles without replacing the whole theme, point `customCss` at a file i
 customCss: "/my-styles.css",
 ```
 
----
-
 ## Deployment (GitHub Pages)
 
 1. Go to **Settings → Pages** in your GitHub repo
@@ -167,19 +155,19 @@ For project sites (`username.github.io/my-catalog`), uncomment `basePath` in `go
 basePath: '/my-catalog',
 ```
 
----
-
 ## Upgrading
+
+### GitHub UI:
+
+Edit `package.json`, bump the version number in `"@girtablu/gorlab": "^x.y.z"`, save. The CI workflow runs `npm install` which resolves the new version automatically.
+
+### Local:
 
 ```bash
 npm update @gulluth/gorlab
 ```
 
 Then push — GitHub Actions rebuilds with the new version.
-
-**GitHub UI:** Edit `package.json`, bump the version number in `"@gulluth/gorlab": "^x.y.z"`, commit. The CI workflow runs `npm install` which resolves the new version automatically.
-
----
 
 ## Custom fields
 
@@ -195,8 +183,6 @@ customFields: [
 
 Then add the corresponding keys to your post frontmatter. Fields not declared here are ignored.
 
----
-
 ## Community submissions
 
 Gorlab includes a `/submit/` page where visitors can propose resources. The form UI is built in — you enable it with a config toggle. The backend that receives and processes those submissions is **not** included; it is a separate add-on package you install alongside gorlab.
@@ -209,17 +195,13 @@ submitUrl: "https://your-backend-endpoint/submit",
 
 When `showSubmitForm` is `true`, a **Submit** link appears in the nav and the `/submit/` route is active. When `false` (the default), the route is inaccessible and the link is hidden.
 
-Backend add-on packages (e.g. `@gulluth/gorlab-submit-netlify`) will be published separately. Until then, this feature requires you to wire up your own endpoint.
-
----
+Backend add-on packages (e.g. `@girtablu/gorlab-submit-cloudflare`) will be published separately. Until then, this feature requires you to wire up your own endpoint.
 
 ## Bulk import from CSV
 
 If you have existing data in a spreadsheet, the included `csv_to_posts.py` script (in the gorlab repo) can generate markdown files. See the script header for column format details.
 
----
+## Contributing
 
-## Support and contributing
-
-- **Issues and questions:** [github.com/girtablu/gorlab/issues](https://github.com/girtablu/gorlab/issues)
+- **To report bugs:** [github.com/girtablu/gorlab/issues](https://github.com/girtablu/gorlab/issues)
 - **Contributing to the framework:** [CONTRIBUTING.md](https://github.com/girtablu/gorlab/blob/main/CONTRIBUTING.md)
