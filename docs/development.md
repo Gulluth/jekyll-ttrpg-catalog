@@ -5,7 +5,6 @@
 - Node.js ≥ 20
 - npm
 
-
 ## Dev setup
 
 ```bash
@@ -18,7 +17,6 @@ Opens `http://localhost:5173`. The dev server reads `posts/` directly via Node.j
 Changes to `src/` hot-reload automatically. Changes to `posts/` require a manual browser refresh (the files are read at request time, not watched).
 
 Search does not function in dev mode because hot-reload prevents indexing. If you need to test search, run a `build` and `preview` as described below.
-
 
 ## Running tests
 
@@ -37,7 +35,6 @@ npm run test:e2e
 
 Playwright starts `vite preview` automatically against the built `build/` output and runs tests in Chromium headless on desktop (1280px) and mobile (375px) viewports.
 
-
 ## Building
 
 ```bash
@@ -53,7 +50,6 @@ npm run preview
 ```
 
 Opens `http://localhost:4173`. If `basePath` is set in `gorlab.config.js` (required for GitHub Pages project sites), the catalog will be at `http://localhost:4173/<basePath>/` instead.
-
 
 ## Theming
 
