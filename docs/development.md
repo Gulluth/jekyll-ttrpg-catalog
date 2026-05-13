@@ -74,9 +74,9 @@ Full preset list: `cerberus`, `wintry`, `vintage`, `crimson`, `pine`, `modern`, 
 1. Open the [Skeleton Theme Generator](https://themes.skeleton.dev/), customize, and copy the generated CSS.
 2. Save it (e.g. `src/my-theme.css`) and import it in `src/app.css`:
 
-```css
-@import './my-theme.css';
-```
+    ```css
+    @import './my-theme.css';
+    ```
 
 3. Set `theme: "my-theme"` in `gorlab.config.js`.
 
