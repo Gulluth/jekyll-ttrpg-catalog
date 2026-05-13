@@ -13,7 +13,7 @@ SvelteKit prebuilds every route at build time (fully static output to `build/`).
 
 Posts are markdown files in `posts/` — flat or in subdirectories. Subdirectory names have no effect on categories; categories come entirely from the `category:` frontmatter field in each file.
 
-```
+```bash
 src/
 ├── app.css                    # Tailwind + Skeleton theme imports
 ├── routes/
@@ -41,7 +41,6 @@ src/
     └── Pagination.svelte      # Skeleton Pagination wrapper
 ```
 
-
 ## Design principles
 
 Three principles define the boundary between app responsibility and operator responsibility. Keep them in mind when adding features.
@@ -57,7 +56,6 @@ Nearly every UI feature is a toggle (`showCost`, `showTagCloud`, `showFilterBar`
 
 **4. The form is gorlab's concern; the backend is not.**
 The `/submit/` route is a generic form UI. It POSTs to `config.submitUrl` — an opaque URL supplied by a separate backend add-on package. Do not add backend-specific logic (auth headers, payload shaping for a specific service) to the core form. The boundary: gorlab renders the form and fires the POST; the add-on owns everything after that.
-
 
 ## Component conventions
 

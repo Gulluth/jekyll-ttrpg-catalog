@@ -9,7 +9,6 @@ This doc is for developers working on the gorlab framework itself: routes, compo
 - [Architecture](docs/architecture.md) — app structure, design principles, component conventions
 - [Development](docs/development.md) — dev setup, testing, building, theming
 
-
 ## How to contribute
 
 1. Fork the repo and create a branch off `main`.
@@ -17,7 +16,6 @@ This doc is for developers working on the gorlab framework itself: routes, compo
 3. Open a pull request to `main`.
 
 Direct push to `main` is not allowed.
-
 
 ## CI
 
@@ -31,7 +29,6 @@ npm run test:e2e
 ```
 
 PRs that add posts with external `cover-image` URLs are processed by `.github/workflows/fetch-covers.yml`: it downloads each image to `static/covers/`, rewrites the frontmatter, and commits the result back to the PR branch before review.
-
 
 ## Branch strategy
 

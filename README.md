@@ -2,7 +2,7 @@
 
 A curious and unusual bric-a-brac, for curious and unusual folk.
 
-Gorlab is a static content library framework for gamers. 
+Gorlab is a static content library framework for gamers.
 
 ## Using gorlab
 

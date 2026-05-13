@@ -4,14 +4,14 @@ A filterable card catalog built with [Gorlab](https://github.com/girtablu/gorlab
 
 ## Quick start
 
-### GitHub UI:
+### GitHub UI
 
 1. Click **Use this template** → create your repo
 2. **In your new repo**, go to **Settings → Pages**, set Source to **GitHub Actions**
 3. Edit `gorlab.config.js` — set your `title` — commit → site deploys automatically
 4. Add posts to `posts/` — commit → site updates automatically
 
-### For local development (optional):
+### For local development (optional)
 
 ```bash
 git clone your-repo
@@ -69,7 +69,7 @@ cover-image: /covers/filename.(jpg|gif|png|webp)
 
 Posts can live directly in `posts/` or in any subdirectory:
 
-```
+```sh
 posts/
   2024-01-01-my-adventure.md        ← flat
   2024-01-02-my-system.md           ← flat
@@ -97,15 +97,13 @@ export default {
 
 `imageOrientation` controls how cover images are displayed on cards and resource pages. Set it to match the shape of your cover images:
 
-| Value | Card image box | Resource page layout |
-|---|---|---|
-| `landscape` (default) | 3:2 (wide) | Image stacked above text |
-| `portrait` | 2:3 (tall) | Image left, text right |
-| `none` | Hidden | No image, text full width |
+| Value                 | Card image box | Resource page layout      |
+| --------------------- | -------------- | ------------------------- |
+| `landscape` (default) | 3:2 (wide)     | Image stacked above text  |
+| `portrait`            | 2:3 (tall)     | Image left, text right    |
+| `none`                | Hidden         | No image, text full width |
 
 Individual posts can override the global setting with `imageOrientation:` in their frontmatter.
-
----
 
 ## Theming
 
@@ -157,11 +155,11 @@ basePath: '/my-catalog',
 
 ## Upgrading
 
-### GitHub UI:
+### GitHub
 
 Edit `package.json`, bump the version number in `"@girtablu/gorlab": "^x.y.z"`, save. The CI workflow runs `npm install` which resolves the new version automatically.
 
-### Local:
+### Local
 
 ```bash
 npm update @gulluth/gorlab
@@ -185,7 +183,7 @@ Then add the corresponding keys to your post frontmatter. Fields not declared he
 
 ## Community submissions
 
-Gorlab includes a `/submit/` page where visitors can propose resources. The form UI is built in — you enable it with a config toggle. The backend that receives and processes those submissions is **not** included; it is a separate add-on package you install alongside gorlab.
+Gorlab includes a `/submit/` page where visitors can propose resources. You enable the UI with a config toggle. The backend that receives and processes those submissions is **not** included; it is a separate add-on package you install alongside gorlab.
 
 ```js
 // gorlab.config.js
