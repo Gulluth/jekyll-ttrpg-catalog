@@ -27,6 +27,43 @@
 
 <svelte:head>
   <title>{post.name}</title>
+
+  {#each post.category as cat}
+    <meta data-pagefind-filter="category:{cat}">
+  {/each}
+  {#if post.author}
+    <meta data-pagefind-filter="author[content]" content={post.author}>
+  {/if}
+  {#if post.genre}
+    <meta data-pagefind-filter="genre[content]" content={post.genre}>
+  {/if}
+  {#if post.cost}
+    <meta data-pagefind-filter="cost[content]" content={post.cost}>
+  {/if}
+  {#each post.tags as tag}
+    <meta data-pagefind-filter="tag:{tag}">
+  {/each}
+
+  {#if post.summary}
+    <meta data-pagefind-meta="summary[content]" content={post.summary}>
+  {/if}
+  {#if hasCover}
+    <meta data-pagefind-meta="cover-image[content]" content={coverSrc}>
+  {/if}
+  <meta data-pagefind-meta="featured[content]" content={String(post.featured)}>
+  {#if post.category.length > 0}
+    <meta data-pagefind-meta="category[content]" content={post.category.join(', ')}>
+  {/if}
+  {#if post.author}
+    <meta data-pagefind-meta="author[content]" content={post.author}>
+  {/if}
+  {#if post.cost}
+    <meta data-pagefind-meta="cost[content]" content={post.cost}>
+  {/if}
+  {#if post.sort_priority !== null}
+    <meta data-pagefind-sort="sort_priority[content]" content={String(post.sort_priority)}>
+  {/if}
+  <meta data-pagefind-meta="date[content]" content={post.date}>
 </svelte:head>
 
 {#snippet coverImage(classes: string)}
@@ -49,12 +86,12 @@
 
   <div class="flex flex-col gap-1.5">
     {#if post.author}
-      <span class="text-sm opacity-60">By <a href="{base}/search/?q={encodeURIComponent(post.author)}" class="hover:underline">{post.author}</a>{config.showCost && post.cost ? ` · ${post.cost}` : ''}</span>
+      <span class="text-sm opacity-60">By <a href="{base}/?author={encodeURIComponent(post.author)}" class="hover:underline">{post.author}</a>{config.showCost && post.cost ? ` · ${post.cost}` : ''}</span>
     {/if}
     {#if post.genre || post.license}
       <div class="flex flex-wrap gap-1.5">
-        {#if post.genre}<a href="{base}/search/?q={encodeURIComponent(post.genre)}" class="chip preset-tonal text-xs">{post.genre}</a>{/if}
-        {#if post.license}<a href="{base}/search/?q={encodeURIComponent(post.license)}" class="chip preset-tonal text-xs">{post.license}</a>{/if}
+        {#if post.genre}<a href="{base}/?genre={encodeURIComponent(post.genre)}" class="chip preset-tonal text-xs">{post.genre}</a>{/if}
+        {#if post.license}<span class="chip preset-tonal text-xs">{post.license}</span>{/if}
       </div>
     {/if}
   </div>
@@ -99,7 +136,7 @@
   {#if post.tags.length > 0}
     <div class="flex flex-wrap gap-1.5">
       {#each post.tags as tag}
-        <a href="{base}/?tags={encodeURIComponent(tag)}" class="chip preset-tonal text-xs">{tag}</a>
+        <a href="{base}/?tag={encodeURIComponent(tag)}" class="chip preset-tonal text-xs">{tag}</a>
       {/each}
     </div>
   {/if}
@@ -120,10 +157,6 @@
 {/snippet}
 
 <div data-pagefind-body class="px-4 py-8 max-w-4xl mx-auto">
-
-  {#if post.category.length > 0}
-    <div data-pagefind-meta="category" style="display: none;">{post.category.join(', ')}</div>
-  {/if}
 
   {#if orientation === 'portrait'}
     <!-- Two-column on desktop: image left, metadata right.

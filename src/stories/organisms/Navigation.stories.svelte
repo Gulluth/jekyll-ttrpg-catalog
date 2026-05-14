@@ -8,7 +8,6 @@
 </script>
 
 <script lang="ts">
-  import SearchInput from '$lib/SearchInput.svelte';
   import TagCloud from '$lib/TagCloud.svelte';
   import FilterBar from '$lib/FilterBar.svelte';
 
@@ -20,14 +19,11 @@
 
 <!-- Menu: the top navigation bar from +layout.svelte -->
 <Story name="Menu">
-  <header class="w-full border-b border-surface-200-800 px-4 py-3 grid grid-cols-[1fr_auto_1fr] items-center gap-4">
-    <a href="/" class="justify-self-start font-bold text-lg tracking-tight hover:opacity-80 transition-opacity">
+  <header class="w-full border-b border-surface-200-800 px-4 py-3 flex items-center justify-between gap-4">
+    <a href="/" class="font-bold text-lg tracking-tight hover:opacity-80 transition-opacity">
       Site Title
     </a>
-    <div class="w-36 sm:w-56 md:w-72">
-      <SearchInput />
-    </div>
-    <div class="justify-self-end flex items-center gap-3">
+    <div class="flex items-center gap-3">
       <a href="/submit/" class="text-sm opacity-60 hover:opacity-100 transition-opacity">Submit</a>
       <button class="btn-icon preset-tonal size-8" aria-label="Toggle dark mode">
         <svg class="size-4" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">

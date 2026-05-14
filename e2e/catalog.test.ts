@@ -1,8 +1,18 @@
-import { test, expect } from '@playwright/test'
+import { test, expect, type Page } from '@playwright/test'
+
+async function waitForCards(page: Page) {
+  await page.locator('article.card').first().waitFor({ timeout: 10000 })
+}
+
+async function openFiltersIfCollapsed(page: Page) {
+  const btn = page.getByRole('button', { name: 'Filters' })
+  if (await btn.isVisible()) await btn.click()
+}
 
 test.describe('catalog page', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('.', { waitUntil: 'networkidle' })
+    await page.goto('.')
+    await waitForCards(page)
   })
 
   test('loads with cards visible', async ({ page }) => {
@@ -17,43 +27,55 @@ test.describe('catalog page', () => {
 
     const tagCloud = page.getByRole('group', { name: 'Filter by category' })
     await tagCloud.getByRole('button').filter({ hasNotText: 'All' }).first().click()
+
     await expect(async () => {
       const filtered = await cards.count()
       expect(filtered).toBeGreaterThan(0)
       expect(filtered).toBeLessThan(total)
-    }).toPass()
+    }).toPass({ timeout: 10000 })
 
     await tagCloud.getByRole('button', { name: 'All' }).click()
-    await expect(cards).toHaveCount(total)
+
+    await expect(async () => {
+      expect(await cards.count()).toBe(total)
+    }).toPass({ timeout: 10000 })
   })
 
   test('sort A–Z orders cards alphabetically ascending', async ({ page }) => {
+    await openFiltersIfCollapsed(page)
     await page.selectOption('#sort-select', 'az')
-    const headings = await page.locator('article.card').getByRole('heading').allTextContents()
-    expect(headings.length).toBeGreaterThan(1)
-    expect(headings).toEqual([...headings].sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase())))
+
+    await expect(async () => {
+      await page.locator('article.card').first().waitFor({ timeout: 5000 })
+      const headings = await page.locator('article.card').getByRole('heading').allTextContents()
+      expect(headings.length).toBeGreaterThan(1)
+      expect(headings).toEqual([...headings].sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase())))
+    }).toPass({ timeout: 15000 })
   })
 
   test('sort Z–A orders cards alphabetically descending', async ({ page }) => {
+    await openFiltersIfCollapsed(page)
     await page.selectOption('#sort-select', 'za')
-    const headings = await page.locator('article.card').getByRole('heading').allTextContents()
-    expect(headings.length).toBeGreaterThan(1)
-    expect(headings).toEqual([...headings].sort((a, b) => b.toLowerCase().localeCompare(a.toLowerCase())))
+
+    await expect(async () => {
+      await page.locator('article.card').first().waitFor({ timeout: 5000 })
+      const headings = await page.locator('article.card').getByRole('heading').allTextContents()
+      expect(headings.length).toBeGreaterThan(1)
+      expect(headings).toEqual([...headings].sort((a, b) => b.toLowerCase().localeCompare(a.toLowerCase())))
+    }).toPass({ timeout: 15000 })
   })
 
   test('pagination is hidden when all posts fit on one page', async ({ page }) => {
-    // Pagination renders only when post count exceeds postsPerPage (default 24)
     await expect(page.locator('nav[aria-label*="pagination"]')).not.toBeVisible()
   })
 
   test('category URL param pre-filters results', async ({ page }) => {
-    // Pick the first available category from the tag cloud rather than hardcoding one
     const tagCloud = page.getByRole('group', { name: 'Filter by category' })
     const categoryButton = tagCloud.getByRole('button').filter({ hasNotText: 'All' }).first()
     const category = (await categoryButton.textContent())!.trim()
 
     await page.goto(`./?category=${encodeURIComponent(category)}`)
-    await expect(page.locator('article.card').first()).toBeVisible()
+    await waitForCards(page)
 
     for (const card of await page.locator('article.card').all()) {
       const chipTexts = await card.locator('.chip').allTextContents()
