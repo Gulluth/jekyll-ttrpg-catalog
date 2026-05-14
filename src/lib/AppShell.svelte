@@ -2,8 +2,6 @@
   import type { Snippet } from 'svelte';
   import { base } from '$app/paths';
   import { config } from '$lib/catalog.js';
-  import SearchInput from '$lib/SearchInput.svelte';
-
   let { children }: { children: Snippet } = $props();
 
   let dark = $state(false);
@@ -28,17 +26,14 @@
 </script>
 
 <div class="min-h-screen flex flex-col">
-  <header class="border-b border-surface-200-800 px-4 py-3 grid grid-cols-[1fr_auto_1fr] items-center gap-4">
+  <header class="border-b border-surface-200-800 px-4 py-3 flex items-center justify-between gap-4">
     <a
       href="{base}/"
-      class="font-bold text-lg tracking-tight hover:opacity-80 transition-opacity justify-self-start"
+      class="font-bold text-lg tracking-tight hover:opacity-80 transition-opacity"
     >
       {config.title}
     </a>
-    <div class="w-36 sm:w-56 md:w-72 lg:w-[32rem]">
-      <SearchInput />
-    </div>
-    <div class="justify-self-end flex items-center gap-3">
+    <div class="flex items-center gap-3">
       {#if config.showSubmitForm}
         <a href="{base}/submit/" class="text-sm opacity-60 hover:opacity-100 transition-opacity">
           Submit

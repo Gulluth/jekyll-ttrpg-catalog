@@ -1,5 +1,4 @@
-import { parsePosts, getCategories } from '$lib/posts.js'
-import { getAuthors, getGenres, getCosts } from '$lib/filters.js'
+import { parsePosts } from '$lib/posts.js'
 import { config } from '$lib/catalog.js'
 
 export const prerender = true
@@ -7,11 +6,7 @@ export const prerender = true
 export function load() {
   const posts = parsePosts(process.env.POSTS_DIR ?? 'posts', config.customFields)
   return {
-    posts,
-    categories: getCategories(posts),
-    authors: getAuthors(posts),
-    genres: getGenres(posts),
-    costs: getCosts(posts),
+    totalPosts: posts.length,
     config,
   }
 }
