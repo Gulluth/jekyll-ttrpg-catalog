@@ -14,11 +14,11 @@ export default {
 
   // siteUrl: your deployed GitHub Pages URL. When set, the title links here.
   // Set this after your first deploy.
-siteUrl: "https://girtablu.github.io/gorlab",
+  siteUrl: "https://girtablu.github.io/gorlab",
 
   // basePath: uncomment only for GitHub Pages *project* sites
   // (username.github.io/my-catalog). Leave commented for root sites.
-  // basePath: '/my-catalog',
+  basePath: '/gorlab',
 
   // ── Appearance ────────────────────────────────────────────────────────────
   // theme: one of the bundled presets below. Default: cerberus.
@@ -40,7 +40,7 @@ siteUrl: "https://girtablu.github.io/gorlab",
   //                           Cards use a 2:3 box. Resource page: image left, text right.
   //   'none'                — no cover images; content fills full width everywhere.
   // Individual posts can override this with imageOrientation: in their frontmatter.
-  // imageOrientation: 'landscape',
+  imageOrientation: 'portrait',
 
   // showCost: set to false to hide price info everywhere (cards, filters, pages).
   // showCost: false,
