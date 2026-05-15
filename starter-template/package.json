@@ -9,6 +9,6 @@
     "preview": "gorlab preview"
   },
   "dependencies": {
-    "@gulluth/gorlab": "^0.1.9"
+    "@gulluth/gorlab": "^0.1.10"
   }
 }
