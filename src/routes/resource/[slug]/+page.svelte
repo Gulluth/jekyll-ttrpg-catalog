@@ -48,7 +48,7 @@
     <meta data-pagefind-meta="summary[content]" content={post.summary}>
   {/if}
   {#if hasCover}
-    <meta data-pagefind-meta="cover-image[content]" content={coverSrc}>
+    <meta data-pagefind-meta="cover-image[content]" content={post['cover-image']}>
   {/if}
   <meta data-pagefind-meta="featured[content]" content={String(post.featured)}>
   {#if post.category.length > 0}
