@@ -26,4 +26,5 @@ subtexts:
     • Numerous on Luna, rarely seen on Vaarn itself. Specimens brought to
     Autarch menageries fail to thrive — graceful lunar movement is hobbled by
     the stronger gravity of the mother-sphere.
+imageOrientation: landscape
 ---

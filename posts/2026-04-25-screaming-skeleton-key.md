@@ -13,5 +13,6 @@ subtexts:
     does not fit and the key screams in despair, alerting anyone or anything
     within earshot.
   - • Designed for Adventurous (Eklundz).
+imageOrientation: none
 ---
 

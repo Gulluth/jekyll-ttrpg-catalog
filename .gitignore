@@ -1,8 +1,6 @@
-build/
-.svelte-kit/
-node_modules/
-dist/
-.env
-*.log
-playwright-report/
-test-results/
+/src
+/svelte.config.js
+/vite.config.ts
+/.svelte-kit
+/build
+/node_modules

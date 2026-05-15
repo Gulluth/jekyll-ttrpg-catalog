@@ -3,8 +3,6 @@ name: Build and Deploy
 on:
   push:
     branches: [main]
-  pull_request:
-    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -14,7 +12,7 @@ permissions:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+  cancel-in-progress: false
 
 jobs:
   build:
@@ -25,34 +23,22 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'npm'
 
       - name: Install dependencies
-        run: npm ci
+        run: npm install
 
-      - name: Unit tests
-        if: github.event_name != 'push'
-        run: npm run test:unit
+      - name: Show gorlab version
+        run: npm list @gulluth/gorlab
 
       - name: Build
         run: npm run build
 
-      - name: Install Playwright Chromium
-        if: github.event_name != 'push'
-        run: npx playwright install --with-deps chromium
-
-      - name: E2E tests
-        if: github.event_name != 'push'
-        run: npm run test:e2e
-
       - uses: actions/upload-pages-artifact@v3
-        if: github.event_name != 'pull_request'
         with:
           path: build
 
   deploy:
     needs: build
-    if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     environment:
       name: github-pages

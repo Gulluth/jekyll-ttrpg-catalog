@@ -29,5 +29,6 @@ subtexts:
   - >-
     • Will not knowingly remove the ring; a clever party might exploit his
     overconfidence in its protection.
+imageOrientation: none
 ---
 

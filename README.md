@@ -1,209 +1,205 @@
 # Girtablu's Gorlab
 
-A curious and unusual brick-a-brac, for curious and unusual folk.
-
-Gorlab is a static content library framework for gamers. 
+A filterable card catalog built with [Gorlab](https://github.com/girtablu/gorlab).
 
 ## Quick start
 
-Fork or clone the repo, push to GitHub, and GitHub Actions handles the build and deploy automatically.
+### GitHub UI
 
-For most workflows — adding content, changing config, tweaking a theme — the loop is just edit → push → done.
+1. Click **Use this template** → create your repo
+2. **In your new repo**, go to **Settings → Pages**, set Source to **GitHub Actions**
+3. Edit `gorlab.config.js` — set your `title` — commit → site deploys automatically
+4. Add posts to `posts/` — commit → site updates automatically
 
+### For local development (optional)
+
+```bash
+git clone your-repo
+npm install
+npm run dev       # preview at http://localhost:5173
+```
 
 ## Adding content
 
-Each resource is a Markdown file with YAML front matter in `posts/<category>/`.
+Each resource is a Markdown file with YAML frontmatter in `posts/`.
 
-Filename format: `YYYY-MM-DD-slug.md`
+**Filename format:** `YYYY-MM-DD-slug.md`
 
 ```yaml
 ---
-name: My Resource Title       # required
+name: My Resource Title       # required — the only mandatory field
 category:                     # recommended — drives tag cloud and filters
   - systems
 author: Author Name
-source: itch.io
-source-url: https://author.itch.io/my-resource
+source: itch.io               # platform name
+source-url: https://example.itch.io/my-resource
 genre: horror
 summary: A one-line description shown on the card.
-cost: free                    # free / PWYW / $5 / etc.
+cost: free                    # free / PWYW / $5.00 / etc.
 license: CC BY 4.0
-cover-image: https://example.com/cover.png   # external URL, or /covers/filename.webp for local
+cover-image: https://example.com/cover.png
 tags:
-  - investigation
   - one-shot
-# Entry page extensions (all optional)
-stats: 8 HP, 1 Armor, 10 STR, 12 DEX, 6 CHA
+  - investigation
+# Optional extended fields
+stats: 8 HP, 1 Armor, 10 STR
 subtexts:
-  - "First bullet point."
+  - "First bullet point on the entry page."
   - "Second bullet point."
+featured: true                # featured posts get a highlighted card accent
+imageOrientation: portrait    # landscape | portrait | none — overrides global config
 ---
 
-Optional markdown body content rendered on the resource page.
+Optional markdown body rendered on the resource page. Delete this if unused.
 ```
 
-Place the file in `posts/<category>/` matching one of the values in `category:`.
+Only `name` is required. Every other field degrades gracefully when absent.
 
 ### Cover images
 
-If `cover-image` is an external URL, the CI workflow downloads it to `static/covers/` and rewrites the frontmatter to the local path automatically when you open a PR. No manual step needed.
+External `cover-image` URLs are downloaded automatically to `static/covers/` by `Github Actions` when you open a pull request.
 
 To add a cover image locally, place the file in `static/covers/` and set:
 
 ```yaml
-cover-image: /covers/filename.webp
+cover-image: /covers/filename.(jpg|gif|png|webp)
 ```
 
-### Bulk import from CSV
+## Posts structure
 
-```bash
-python csv_to_posts.py
-# Move generated .md files into posts/<category>/
+Posts can live directly in `posts/` or in any subdirectory:
+
+```sh
+posts/
+  2024-01-01-my-adventure.md        ← flat
+  2024-01-02-my-system.md           ← flat
+  zines/
+    2024-01-03-my-zine.md           ← in a subdir
 ```
 
-
-## Categories
-
-Categories are YAML values in the `category:` frontmatter field. The tag cloud and filter dropdowns are built automatically from all values present in `posts/`. No configuration needed to add a new one — just use it in a post.
-
-The default categories included with gorlab:
-
-| Folder        | Intended use                                    |
-| ------------- | ----------------------------------------------- |
-| `monsters/`   | Stat blocks and creature descriptions           |
-| `npcs/`       | Named characters and factions                   |
-| `systems/`      | Games, rulebooks, and supplements             |
-| `miscellany/` | Tables, generators, handouts, and anything else |
-
-### Adding a custom category
-
-1. Create a new folder: `posts/mycategory/`
-2. Add posts with `category: [mycategory]` in the front matter
-3. Push — the tags and filters update automatically
-
-A post can belong to multiple categories:
-
-```yaml
-category:
-  - monsters
-  - miscellany
-```
-
-To make a new category available in the community submission form, also add it to `categories` in `gorlab.config.js`.
-
+Subdirectory names have no effect on categories. Categories come only from the `category:` field in each post's frontmatter. Organize subdirectories however makes sense for you — the catalog ignores the folder structure.
 
 ## Configuration
 
-Edit `gorlab.config.js`:
+Edit `gorlab.config.js`. Every option is documented inline. Common settings:
 
 ```js
 export default {
-  title: "Meet Gorlab",
+  title: "My Catalog",
   // description: "",
-  // theme: "cerberus",   // cerberus | wintry | vintage | crimson | pine | modern
+  // siteUrl: "https://username.github.io/my-catalog",
+  // theme: "vintage",        // cerberus | wintry | vintage | crimson | pine | modern
   // postsPerPage: 24,
-  // showSubmitForm: true,
-  // showTagCloud: true,
-  // showFilterBar: true,
-
-  // basePath: '/my-repo-name',   // for GitHub Pages project sites (userid.github.io/my-repo)
-                                  // leave commented out for root deployments
-
-  categories: ["systems", "monsters", "npcs", "miscellany"],
+  // imageOrientation: 'landscape',  // landscape | portrait | none
+  // showCost: false,
 }
 ```
 
-All settings except `title` and `categories` are optional — the app has working defaults for everything.
+`imageOrientation` controls how cover images are displayed on cards and resource pages. Set it to match the shape of your cover images:
 
+| Value                 | Card image box | Resource page layout      |
+| --------------------- | -------------- | ------------------------- |
+| `landscape` (default) | 3:2 (wide)     | Image stacked above text  |
+| `portrait`            | 2:3 (tall)     | Image left, text right    |
+| `none`                | Hidden         | No image, text full width |
+
+Individual posts can override the global setting with `imageOrientation:` in their frontmatter.
 
 ## Theming
 
 ### Preset themes
 
-Change `theme` in `gorlab.config.js` to any of the bundled presets:
+Set `theme` in `gorlab.config.js`:
 
-| Name       | Character          |
-| ---------- | ------------------ |
-| `cerberus` | Dark, moody        |
-| `wintry`   | Cool blues         |
-| `vintage`  | Warm, aged         |
-| `crimson`  | Red, horror        |
-| `pine`     | Earthy greens      |
-| `modern`   | Clean, minimal     |
+| Name       | Character      |
+| ---------- | -------------- |
+| `cerberus` | Dark, moody    |
+| `wintry`   | Cool blues     |
+| `vintage`  | Warm, aged     |
+| `crimson`  | Red, horror    |
+| `pine`     | Earthy greens  |
+| `modern`   | Clean, minimal |
 
-The default is `vintage`. Push the config change and GitHub Actions deploys it.
+The default is `cerberus`. Commit the config change and the site redeploys.
 
 ### Custom themes
 
-You can create a fully custom theme using the [Skeleton UI Theme Generator](https://themes.skeleton.dev/). Customize colors, fonts, and border radius, then export the generated CSS.
-
-1. Save the exported CSS file to `static/` in your repo — e.g. `static/my-theme.css`
-2. In `gorlab.config.js`, set both `theme` and `customCss`:
+1. Create a theme CSS file at the [Skeleton UI Theme Generator](https://themes.skeleton.dev/)
+2. Save it to `static/my-theme.css`
+3. In `gorlab.config.js`:
 
 ```js
-theme: "my-theme",        // must match the theme name inside the CSS file
+theme: "my-theme",
 customCss: "/my-theme.css",
 ```
 
-3. Push — the theme loads automatically alongside the app styles.
-
 ### Custom CSS
 
-To add your own styles on top of the active theme without replacing it — custom fonts, card tweaks, spacing adjustments — create a CSS file in `static/` and point to it:
+To tweak styles without replacing the whole theme, point `customCss` at a file in `static/`:
 
 ```js
-// gorlab.config.js
 customCss: "/my-styles.css",
 ```
 
-The file is loaded after the app styles so your rules take precedence. The `theme` setting is independent — you can use both together.
-
-
 ## Deployment (GitHub Pages)
-
-The included GitHub Actions workflow (`.github/workflows/build.yml`) handles deployment automatically on push.
 
 1. Go to **Settings → Pages** in your GitHub repo
 2. Set **Source** to **GitHub Actions**
-3. Push to `main` — the workflow builds and deploys
+3. Push to `main` — the workflow builds and deploys automatically
 
-For project pages (e.g. `username.github.io/my-repo`), uncomment `basePath` in `gorlab.config.js` and set it to `'/my-repo'`.
+For project sites (`username.github.io/my-catalog`), uncomment `basePath` in `gorlab.config.js`:
 
+```js
+basePath: '/my-catalog',
+```
 
-## Submission form
+## Upgrading
 
-The submit page (`/submit/`) uses [Staticman](https://staticman.net/) to accept community submissions as pull requests, with no GitHub account required for submitters. Submissions go to `posts/incoming/` as a PR for your review before anything goes live.
+### GitHub
 
-To enable:
+Edit `package.json`, bump the version number in `"@girtablu/gorlab": "^x.y.z"`, save. The CI workflow runs `npm install` which resolves the new version automatically.
 
-1. Add the [staticmanapp](https://github.com/apps/staticman-net) GitHub App to your repo
-2. Update `staticmanUrl` in `gorlab.config.js` with your repo details
-3. Set `showSubmitForm: true` in `gorlab.config.js`
+### Local
 
+```bash
+npm update @gulluth/gorlab
+```
 
-## Reviewing submissions
+Then push — GitHub Actions rebuilds with the new version.
 
-When a community member submits a resource, Staticman opens a pull request against your repo. The PR adds a new markdown file to `posts/incoming/` and, if the submission included an external cover image URL, the fetch-covers workflow downloads and commits the image automatically before you review.
+## Custom fields
 
-To review and publish a submission:
+If your catalog needs fields beyond the standard set, declare them in `gorlab.config.js`:
 
-1. Go to the **Pull requests** tab in your GitHub repo
-2. Open the PR — it will be titled something like "Add resource: My Resource Title"
-3. Click the **Files changed** tab to see the new markdown file and any downloaded cover image
-4. If everything looks good, click **Merge pull request**
-5. The build-and-deploy workflow runs automatically — the resource is live within a minute or two
+```js
+customFields: [
+  { key: "page_count", label: "Pages",     type: "text", multiple: false },
+  { key: "publisher",  label: "Publisher", type: "text", multiple: false },
+  { key: "system",     label: "System",    type: "text", multiple: true  },
+],
+```
 
-To reject a submission, close the PR without merging. You can leave a comment explaining why if you'd like to give the submitter feedback.
+Then add the corresponding keys to your post frontmatter. Fields not declared here are ignored.
 
-If you want to edit the submission before merging (fix a typo, adjust a category, add missing fields), click the three-dot menu on the file in Files changed and select **Edit file**, or check out the branch locally.
+## Community submissions
 
+Gorlab includes a `/submit/` page where visitors can propose resources. You enable the UI with a config toggle. The backend that receives and processes those submissions is **not** included; it is a separate add-on package you install alongside gorlab.
 
-## Hacking the app
+```js
+// gorlab.config.js
+showSubmitForm: true,
+submitUrl: "https://your-backend-endpoint/submit",
+```
 
-Want to modify the Svelte UI, add custom themes, or contribute? See [CONTRIBUTING.md](CONTRIBUTING.md).
+When `showSubmitForm` is `true`, a **Submit** link appears in the nav and the `/submit/` route is active. When `false` (the default), the route is inaccessible and the link is hidden.
 
+Backend add-on packages (e.g. `@girtablu/gorlab-submit-cloudflare`) will be published separately. Until then, this feature requires you to wire up your own endpoint.
 
-## License
+## Bulk import from CSV
 
-[MIT](LICENSE)
+If you have existing data in a spreadsheet, the included `csv_to_posts.py` script (in the gorlab repo) can generate markdown files. See the script header for column format details.
+
+## Contributing
+
+- **To report bugs:** [github.com/girtablu/gorlab/issues](https://github.com/girtablu/gorlab/issues)
+- **Contributing to the framework:** [CONTRIBUTING.md](https://github.com/girtablu/gorlab/blob/main/CONTRIBUTING.md)
