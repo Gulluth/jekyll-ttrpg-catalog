@@ -2,6 +2,7 @@
   import { onMount, untrack } from 'svelte'
   import { base } from '$app/paths'
   import type { Post } from '$lib/posts.js'
+  import type { ImageOrientation } from '$lib/config.js'
   import CardGrid from '$lib/CardGrid.svelte'
   import FilterBar from '$lib/FilterBar.svelte'
   import TagCloud from '$lib/TagCloud.svelte'
@@ -20,6 +21,7 @@
     author?: string
     cost?: string
     date?: string
+    imageOrientation?: string
   }
 
   interface PagefindResultData {
@@ -74,7 +76,7 @@
       body: '',
       featured: r.meta.featured === 'true',
       sort_priority: null,
-      imageOrientation: null,
+      imageOrientation: (r.meta.imageOrientation as ImageOrientation) ?? null,
       meta: {},
     }
   }

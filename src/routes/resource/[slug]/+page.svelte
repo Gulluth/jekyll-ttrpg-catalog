@@ -64,6 +64,9 @@
     <meta data-pagefind-sort="sort_priority[content]" content={String(post.sort_priority)}>
   {/if}
   <meta data-pagefind-meta="date[content]" content={post.date}>
+  {#if post.imageOrientation}
+    <meta data-pagefind-meta="imageOrientation[content]" content={post.imageOrientation}>
+  {/if}
 </svelte:head>
 
 {#snippet coverImage(classes: string)}
