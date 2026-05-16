@@ -8,6 +8,7 @@ import {
   getCosts,
 } from "./filters.js";
 import type { Post } from "./posts.js";
+import type { ImageOrientation } from "./config.js";
 
 function makePost(overrides: Partial<Post> & { slug: string }): Post {
   return {
@@ -28,6 +29,7 @@ function makePost(overrides: Partial<Post> & { slug: string }): Post {
     body: "",
     featured: false,
     sort_priority: null,
+    imageOrientation: null,
     meta: {},
     ...overrides,
   };
@@ -190,17 +192,15 @@ describe("applyFilters", () => {
 // ─── sortPosts ────────────────────────────────────────────────────────────────
 
 describe("sortPosts", () => {
-  it("featured posts appear before non-featured regardless of sort", () => {
-    for (const sort of ["newest", "oldest", "az", "za"] as const) {
-      const result = sortPosts(POSTS, sort);
-      const firstNonFeatured = result.findIndex((p) => !p.featured);
-      const lastFeatured = result.map((p) => p.featured).lastIndexOf(true);
-      expect(lastFeatured).toBeLessThan(firstNonFeatured);
-    }
+  it("featured posts appear before non-featured", () => {
+    const result = sortPosts(POSTS);
+    const firstNonFeatured = result.findIndex((p) => !p.featured);
+    const lastFeatured = result.map((p) => p.featured).lastIndexOf(true);
+    expect(lastFeatured).toBeLessThan(firstNonFeatured);
   });
 
   it("featured group ordered by sort_priority ascending", () => {
-    const result = sortPosts(POSTS, "newest");
+    const result = sortPosts(POSTS);
     const featured = result.filter((p) => p.featured);
     expect(featured[0].slug).toBe("featured-hi");
     expect(featured[1].slug).toBe("featured-lo");
@@ -208,32 +208,22 @@ describe("sortPosts", () => {
 
   it("sort_priority has no effect on non-featured items", () => {
     const noFeatured = POSTS.filter((p) => !p.featured);
-    const result = sortPosts(noFeatured, "newest");
+    const result = sortPosts(noFeatured);
     result.forEach((p) => expect(p.featured).toBe(false));
   });
 
-  it("newest sorts non-featured by date descending", () => {
-    const result = sortPosts(POSTS, "newest").filter((p) => !p.featured);
+  it("non-featured posts sorted by date descending", () => {
+    const result = sortPosts(POSTS).filter((p) => !p.featured);
     const dates = result.map((p) => p.date);
     expect(dates).toEqual([...dates].sort((a, b) => b.localeCompare(a)));
   });
 
-  it("oldest sorts non-featured by date ascending", () => {
-    const result = sortPosts(POSTS, "oldest").filter((p) => !p.featured);
-    const dates = result.map((p) => p.date);
-    expect(dates).toEqual([...dates].sort((a, b) => a.localeCompare(b)));
-  });
-
-  it("az sorts non-featured by name ascending", () => {
-    const result = sortPosts(POSTS, "az").filter((p) => !p.featured);
-    const names = result.map((p) => p.name ?? "");
-    expect(names).toEqual([...names].sort((a, b) => a.localeCompare(b)));
-  });
-
-  it("za sorts non-featured by name descending", () => {
-    const result = sortPosts(POSTS, "za").filter((p) => !p.featured);
-    const names = result.map((p) => p.name ?? "");
-    expect(names).toEqual([...names].sort((a, b) => b.localeCompare(a)));
+  it("posts without date prefix fall back to 1970-01-01 and sort last", () => {
+    const undated = makePost({ slug: "undated", date: "1970-01-01" });
+    const dated = makePost({ slug: "dated", date: "2024-06-01" });
+    const result = sortPosts([undated, dated]);
+    expect(result[0].slug).toBe("dated");
+    expect(result[1].slug).toBe("undated");
   });
 });
 

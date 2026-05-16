@@ -41,30 +41,6 @@ test.describe('catalog page', () => {
     }).toPass({ timeout: 10000 })
   })
 
-  test('sort A–Z orders cards alphabetically ascending', async ({ page }) => {
-    await openFiltersIfCollapsed(page)
-    await page.selectOption('#sort-select', 'az')
-
-    await expect(async () => {
-      await page.locator('article.card').first().waitFor({ timeout: 5000 })
-      const headings = await page.locator('article.card').getByRole('heading').allTextContents()
-      expect(headings.length).toBeGreaterThan(1)
-      expect(headings).toEqual([...headings].sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase())))
-    }).toPass({ timeout: 15000 })
-  })
-
-  test('sort Z–A orders cards alphabetically descending', async ({ page }) => {
-    await openFiltersIfCollapsed(page)
-    await page.selectOption('#sort-select', 'za')
-
-    await expect(async () => {
-      await page.locator('article.card').first().waitFor({ timeout: 5000 })
-      const headings = await page.locator('article.card').getByRole('heading').allTextContents()
-      expect(headings.length).toBeGreaterThan(1)
-      expect(headings).toEqual([...headings].sort((a, b) => b.toLowerCase().localeCompare(a.toLowerCase())))
-    }).toPass({ timeout: 15000 })
-  })
-
   test('pagination is hidden when all posts fit on one page', async ({ page }) => {
     await expect(page.locator('nav[aria-label*="pagination"]')).not.toBeVisible()
   })
