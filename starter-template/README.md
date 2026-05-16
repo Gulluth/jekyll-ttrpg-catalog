@@ -8,8 +8,8 @@ A filterable card catalog built with [Gorlab](https://github.com/girtablu/gorlab
 
 1. Click **Use this template** → create your repo
 2. **In your new repo**, go to **Settings → Pages**, set Source to **GitHub Actions**
-3. Edit `gorlab.config.js` — set your `title` — commit → site deploys automatically
-4. Add posts to `posts/` — commit → site updates automatically
+3. Edit `gorlab.config.js` → set your `title` → commit → site deploys automatically
+4. Add posts to `posts/` → commit → site updates automatically
 
 ### For local development (optional)
 
@@ -79,7 +79,7 @@ posts/
 
 Posts with a `YYYY-MM-DD-` prefix sort before undated posts (newest date first). Undated posts sort after all dated ones.
 
-Subdirectory names have no effect on categories. Categories come only from the `category:` field in each post's frontmatter. Organize subdirectories however makes sense for you — the catalog ignores the folder structure.
+Subdirectory names have no effect on categories. Categories come only from the `category:` field in each post's frontmatter. Organize subdirectories however makes sense for you, the catalog ignores the folder structure.
 
 ## Configuration
 
@@ -100,7 +100,7 @@ export default {
 
 `cardLayout` controls how cards are arranged on the catalog page:
 
-| Value               | Behavior                                                     |
+| Value               | Behavior                                                      |
 | ------------------- | ------------------------------------------------------------- |
 | `masonry` (default) | Variable-height cards; gaps collapse. Best for mixed content. |
 | `grid`              | Uniform rows; all cards in a row share the same height.       |
@@ -155,7 +155,7 @@ customCss: "/my-styles.css",
 
 1. Go to **Settings → Pages** in your GitHub repo
 2. Set **Source** to **GitHub Actions**
-3. Push to `main` — the workflow builds and deploys automatically
+3. Push to `main` → the workflow builds and deploys automatically
 
 For project sites (`username.github.io/my-catalog`), uncomment `basePath` in `gorlab.config.js`:
 
@@ -167,7 +167,7 @@ basePath: '/my-catalog',
 
 ### GitHub
 
-Edit `package.json`, bump the version number in `"@girtablu/gorlab": "^x.y.z"`, save. The CI workflow runs `npm install` which resolves the new version automatically.
+Edit `package.json`, bump the version number in `"@gulluth/gorlab": "^x.y.z"`, save. The Github Actions run `npm install` which resolves the new version automatically.
 
 ### Local
 
@@ -190,20 +190,6 @@ customFields: [
 ```
 
 Then add the corresponding keys to your post frontmatter. Fields not declared here are ignored.
-
-## Community submissions
-
-Gorlab includes a `/submit/` page where visitors can propose resources. You enable the UI with a config toggle. The backend that receives and processes those submissions is **not** included; it is a separate add-on package you install alongside gorlab.
-
-```js
-// gorlab.config.js
-showSubmitForm: true,
-submitUrl: "https://your-backend-endpoint/submit",
-```
-
-When `showSubmitForm` is `true`, a **Submit** link appears in the nav and the `/submit/` route is active. When `false` (the default), the route is inaccessible and the link is hidden.
-
-Backend add-on packages (e.g. `@girtablu/gorlab-submit-cloudflare`) will be published separately. Until then, this feature requires you to wire up your own endpoint.
 
 ## Bulk import from CSV
 
