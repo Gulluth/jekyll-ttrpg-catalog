@@ -1,6 +1,4 @@
 <script lang="ts">
-    import type { SortOption } from "./filters.js";
-
     let {
         categories = [],
         authors = [],
@@ -10,7 +8,6 @@
         author = $bindable("all"),
         genre = $bindable("all"),
         cost = $bindable("all"),
-        sort = $bindable<SortOption>("newest"),
         show = true,
         showCost = true,
     }: {
@@ -22,7 +19,6 @@
         author: string;
         genre: string;
         cost: string;
-        sort: SortOption;
         show?: boolean;
         showCost?: boolean;
     } = $props();
@@ -31,8 +27,7 @@
         category !== "all" ||
             author !== "all" ||
             genre !== "all" ||
-            cost !== "all" ||
-            sort !== "newest",
+            cost !== "all",
     );
 
     function clearAll() {
@@ -40,7 +35,6 @@
         author = "all";
         genre = "all";
         cost = "all";
-        sort = "newest";
     }
 </script>
 
@@ -67,23 +61,6 @@
                 {#each costs as c}<option value={c}>{c}</option>{/each}
             </select>
         {/if}
-
-        <div class="flex items-center gap-2 ml-auto">
-            <label
-                for="sort-select"
-                class="text-xs opacity-60 whitespace-nowrap">Sort by</label
-            >
-            <select
-                id="sort-select"
-                class="select w-auto text-sm"
-                bind:value={sort}
-            >
-                <option value="newest">Newest</option>
-                <option value="oldest">Oldest</option>
-                <option value="az">A–Z</option>
-                <option value="za">Z–A</option>
-            </select>
-        </div>
 
         <button
             onclick={clearAll}

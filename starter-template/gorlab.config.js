@@ -29,8 +29,22 @@ export default {
   // Use this to add custom fonts or override specific styles.
   // customCss: "/my-styles.css",
 
+  // cardLayout: controls how resource cards are arranged on the catalog page.
+  //   'masonry' (default) — variable-height cards; gaps collapse naturally.
+  //                         Cards are ordered left-to-right in date order.
+  //                         Best for catalogs with mixed summary lengths or
+  //                         mixed imageOrientation values.
+  //   'grid'              — uniform rows; every card in a row shares the same
+  //                         height. Best when cards are visually consistent.
+  // cardLayout: 'masonry',
+
   // ── Content display ───────────────────────────────────────────────────────
   // postsPerPage: 24,
+
+  // Post filenames: posts/<category>/slug.md
+  // Optional: prefix with a publication date to control sort order —
+  //   posts/<category>/YYYY-MM-DD-slug.md
+  // Posts without a date prefix sort after all dated posts.
 
   // imageOrientation: controls how cover images are displayed across cards and
   // resource pages. Match this to the shape of your cover images.

@@ -1,5 +1,5 @@
 import rawConfig from "../../gorlab.config.js";
-import type { CatalogConfig, CustomField, FilterDimension, ImageOrientation } from "./config.js";
+import type { CatalogConfig, CardLayout, CustomField, FilterDimension, ImageOrientation } from "./config.js";
 
 const cfg = rawConfig as CatalogConfig;
 
@@ -37,6 +37,9 @@ export const config = {
 
   // Image layout
   imageOrientation: (cfg.imageOrientation ?? 'landscape') as ImageOrientation,
+
+  // Card layout
+  cardLayout: (cfg.cardLayout ?? 'masonry') as CardLayout,
 };
 
 export type ResolvedConfig = typeof config;

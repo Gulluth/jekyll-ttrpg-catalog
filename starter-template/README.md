@@ -23,7 +23,7 @@ npm run dev       # preview at http://localhost:5173
 
 Each resource is a Markdown file with YAML frontmatter in `posts/`.
 
-**Filename format:** `YYYY-MM-DD-slug.md`
+**Filename format:** `slug.md` — or `YYYY-MM-DD-slug.md` if you want to control sort order by publication date.
 
 ```yaml
 ---
@@ -71,11 +71,13 @@ Posts can live directly in `posts/` or in any subdirectory:
 
 ```sh
 posts/
-  2024-01-01-my-adventure.md        ← flat
-  2024-01-02-my-system.md           ← flat
+  my-adventure.md                   ← flat, no date
+  2024-01-02-my-system.md           ← flat, with date prefix for sort order
   zines/
-    2024-01-03-my-zine.md           ← in a subdir
+    my-zine.md                      ← in a subdir
 ```
+
+Posts with a `YYYY-MM-DD-` prefix sort before undated posts (newest date first). Undated posts sort after all dated ones.
 
 Subdirectory names have no effect on categories. Categories come only from the `category:` field in each post's frontmatter. Organize subdirectories however makes sense for you — the catalog ignores the folder structure.
 
@@ -89,11 +91,19 @@ export default {
   // description: "",
   // siteUrl: "https://username.github.io/my-catalog",
   // theme: "vintage",        // cerberus | wintry | vintage | crimson | pine | modern
+  // cardLayout: 'masonry',   // masonry (default) | grid
   // postsPerPage: 24,
   // imageOrientation: 'landscape',  // landscape | portrait | none
   // showCost: false,
 }
 ```
+
+`cardLayout` controls how cards are arranged on the catalog page:
+
+| Value               | Behavior                                                     |
+| ------------------- | ------------------------------------------------------------- |
+| `masonry` (default) | Variable-height cards; gaps collapse. Best for mixed content. |
+| `grid`              | Uniform rows; all cards in a row share the same height.       |
 
 `imageOrientation` controls how cover images are displayed on cards and resource pages. Set it to match the shape of your cover images:
 

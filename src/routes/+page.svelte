@@ -8,7 +8,6 @@
   import TagCloud from '$lib/TagCloud.svelte'
   import Pagination from '$lib/Pagination.svelte'
   import { sortPosts } from '$lib/filters.js'
-  import type { SortOption } from '$lib/filters.js'
 
   const { data } = $props()
 
@@ -35,7 +34,6 @@
   let filterCost = $state('all')
   let filterTag = $state('all')
   let filterQuery = $state('')
-  let sort = $state<SortOption>('newest')
   let currentPage = $state(1)
 
   let pagefindReady = $state(false)
@@ -133,7 +131,6 @@
     filterCost = p.get('cost') ?? 'all'
     filterTag = p.get('tag') ?? 'all'
     filterQuery = p.get('q') ?? ''
-    sort = (p.get('sort') ?? 'newest') as SortOption
   }
 
   function writeUrlParams() {
@@ -144,7 +141,6 @@
     if (filterCost !== 'all') p.set('cost', filterCost)
     if (filterTag !== 'all') p.set('tag', filterTag)
     if (filterQuery) p.set('q', filterQuery)
-    if (sort !== 'newest') p.set('sort', sort)
     const qs = p.toString()
     history.replaceState(history.state, '', qs ? `?${qs}` : location.pathname)
   }
@@ -156,7 +152,7 @@
 
   $effect(() => {
     pagefindReady
-    filterCategory; filterAuthor; filterGenre; filterCost; filterTag; filterQuery; sort
+    filterCategory; filterAuthor; filterGenre; filterCost; filterTag; filterQuery
     if (!pagefindReady) return
     untrack(() => {
       writeUrlParams()
@@ -166,7 +162,7 @@
   })
 
   const pageSize = $derived(data.config.postsPerPage)
-  const sorted = $derived(sortPosts(allPosts, sort))
+  const sorted = $derived(sortPosts(allPosts))
   const totalPages = $derived(Math.max(1, Math.ceil(sorted.length / pageSize)))
   const paginated = $derived(
     sorted.slice((currentPage - 1) * pageSize, currentPage * pageSize)
@@ -233,7 +229,6 @@
         bind:author={filterAuthor}
         bind:genre={filterGenre}
         bind:cost={filterCost}
-        bind:sort
         show={data.config.showFilterBar}
         showCost={data.config.showCost}
       />

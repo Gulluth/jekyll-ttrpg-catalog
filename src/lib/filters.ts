@@ -1,13 +1,10 @@
 import type { Post } from './posts.js'
 
-export type SortOption = 'newest' | 'oldest' | 'az' | 'za'
-
 export interface FilterState {
   category: string
   author: string
   genre: string
   cost: string
-  sort: SortOption
 }
 
 export const DEFAULT_FILTER_STATE: FilterState = {
@@ -15,7 +12,6 @@ export const DEFAULT_FILTER_STATE: FilterState = {
   author: 'all',
   genre: 'all',
   cost: 'all',
-  sort: 'newest',
 }
 
 function normalize(s: string | null | undefined): string {
@@ -35,7 +31,7 @@ export function applyFilters(
   })
 }
 
-export function sortPosts(posts: Post[], sort: SortOption): Post[] {
+export function sortPosts(posts: Post[]): Post[] {
   const featured = [...posts.filter(p => p.featured)].sort((a, b) => {
     const pa = a.sort_priority ?? Infinity
     const pb = b.sort_priority ?? Infinity
@@ -43,14 +39,9 @@ export function sortPosts(posts: Post[], sort: SortOption): Post[] {
     return b.date.localeCompare(a.date)
   })
 
-  const rest = [...posts.filter(p => !p.featured)].sort((a, b) => {
-    switch (sort) {
-      case 'newest': return b.date.localeCompare(a.date)
-      case 'oldest': return a.date.localeCompare(b.date)
-      case 'az':     return normalize(a.name).localeCompare(normalize(b.name))
-      case 'za':     return normalize(b.name).localeCompare(normalize(a.name))
-    }
-  })
+  const rest = [...posts.filter(p => !p.featured)].sort((a, b) =>
+    b.date.localeCompare(a.date)
+  )
 
   return [...featured, ...rest]
 }

@@ -1,4 +1,5 @@
 export type ImageOrientation = 'landscape' | 'portrait' | 'none'
+export type CardLayout = 'masonry' | 'grid'
 
 export interface FilterDimension {
   cloud: boolean
@@ -28,4 +29,5 @@ export interface CatalogConfig {
   siteUrl?: string
   customCss?: string
   imageOrientation?: ImageOrientation
+  cardLayout?: CardLayout
 }

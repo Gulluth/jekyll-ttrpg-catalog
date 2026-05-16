@@ -22,6 +22,7 @@ function makePost(overrides: Partial<Post> = {}): Post {
     body: '',
     featured: false,
     sort_priority: null,
+    imageOrientation: null,
     meta: {},
     ...overrides,
   }
@@ -47,4 +48,10 @@ test('renders a list item for each post', () => {
 test('does not show empty state when posts are present', () => {
   render(CardGrid, { posts: [makePost()] })
   expect(screen.queryByText('No resources match your filters.')).not.toBeInTheDocument()
+})
+
+test('masonry grid uses auto-rows-[10px] class', () => {
+  const { container } = render(CardGrid, { posts: [makePost()] })
+  const grid = container.querySelector('ul')
+  expect(grid?.className).toContain('auto-rows-[10px]')
 })
